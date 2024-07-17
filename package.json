@@ -1,0 +1,15 @@
+{
+  "name": "eventeny",
+  "version": "1.0.0",
+  "description": "pv-eventeny-take-home-assessment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
