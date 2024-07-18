@@ -18,15 +18,33 @@ const db = [
 const dbApps = [
   {
     type: 'table',
-    user: 'pat2'
+    user: 'pat2',
+    status: 'approved',
+    createdOn: 'Jul 17 08:12:04'
   },
   {
     type: 'foodtruck',
-    user: 'pat2'
+    user: 'pat2',
+    status: 'approved',
+    createdOn: 'Jul 17 08:24:04'
   },
   {
     type: 'foodtruck',
-    user: 'pat3'
+    user: 'pat3',
+    status: 'waitlisted',
+    createdOn: 'Jul 17 18:12:04'
+  },
+  {
+    type: 'table',
+    user: 'pat3',
+    status: 'approved',
+    createdOn: 'Jul 18 08:10:04'
+  },
+  {
+    type: 'foodtruck',
+    user: 'pat3',
+    status: 'awaiting action',
+    createdOn: 'Jul 18 09:16:04'
   }
 ]
 
