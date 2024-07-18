@@ -43,17 +43,26 @@ function checkRole(username) {
 // functions to be exported
 const foodventenyController = {};
 
-foodventenyController.getAllApps = async (req, res) => {
+foodventenyController.getApps = async (req, res) => {
   try {
-    
+    //req.body will contain a username or role
+    let username = 'pat2';
+    if(checkRole(username) === 'admin'){
+      // return array of apps
+      return dbApps;
+    }else if(checkRole(username) === 'user'){
+      const userAppArray = [];
+      for(let app of dbApps) {
+        if(app.user === username) userAppArray.push(app);
+      }
+      return userAppArray;
+    }else{
+      return "ERROR: User not found"
+    }
 
   } catch (error) {
     console.log(error);
   }
-}
-
-foodventenyController.getUserApps = async () => {
-
 }
 
 foodventenyController.updateAppStatus = async () => {
@@ -63,3 +72,4 @@ foodventenyController.updateAppStatus = async () => {
 module.exports = foodventenyController;
 
 console.log(checkRole('pat1'));
+console.log(foodventenyController.getApps())
