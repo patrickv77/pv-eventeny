@@ -17,30 +17,35 @@ const db = [
 
 const dbApps = [
   {
+    id: 1,
     type: 'table',
     user: 'pat2',
     status: 'approved',
     createdOn: 'Jul 17 08:12:04'
   },
   {
+    id: 2,
     type: 'foodtruck',
     user: 'pat2',
     status: 'approved',
     createdOn: 'Jul 17 08:24:04'
   },
   {
+    id: 3,
     type: 'foodtruck',
     user: 'pat3',
     status: 'waitlisted',
     createdOn: 'Jul 17 18:12:04'
   },
   {
+    id: 4,
     type: 'table',
     user: 'pat3',
     status: 'approved',
     createdOn: 'Jul 18 08:10:04'
   },
   {
+    id: 5,
     type: 'foodtruck',
     user: 'pat3',
     status: 'awaiting action',
@@ -63,8 +68,8 @@ const foodventenyController = {};
 
 foodventenyController.getApps = async (req, res) => {
   try {
-    //req.body will contain a username or role
-    let username = 'pat2';
+    // req.body will contain a username or role
+    let username = 'pat3';
     if(checkRole(username) === 'admin'){
       // return array of apps
       return dbApps;
@@ -84,10 +89,23 @@ foodventenyController.getApps = async (req, res) => {
 }
 
 foodventenyController.updateAppStatus = async () => {
+  try {
+    // req.body will contain the id of the app to be updated
+    let appId = 5;
+    for(let app of dbApps) {
+      if(app.id === appId) app.status = 'approved'
+    }
 
+    console.log(dbApps[4].status);
+    return 'Success'
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 module.exports = foodventenyController;
 
 console.log(checkRole('pat1'));
+console.log(foodventenyController.getApps())
+console.log(foodventenyController.updateAppStatus());
 console.log(foodventenyController.getApps())
