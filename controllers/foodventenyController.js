@@ -99,7 +99,7 @@ foodventenyController.updateAppStatus = async (req, res) => {
     console.log(dbApps[4].status);
     return 'Success'
   } catch (error) {
-    console.log(error);
+    console.log(error); 
   }
 }
 
