@@ -88,7 +88,7 @@ foodventenyController.getApps = async (req, res) => {
   }
 }
 
-foodventenyController.updateAppStatus = async () => {
+foodventenyController.updateAppStatus = async (req, res) => {
   try {
     // req.body will contain the id of the app to be updated
     let appId = 5;
