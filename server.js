@@ -1,6 +1,6 @@
 const path = require('path');
 const express = require('express');
-const db = require('./db/models/index');
+// const db = require('./db/models/index');
 
 const foodventenyController = require('./controllers/foodventenyController');
 const apiRouter = require('./routes/api');
@@ -34,11 +34,11 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
-db.sequelize.sync({ force: false }).then(function () {
-  // server.on("error", onError);
-  // server.on("listening", onListening);
-  console.log("Database created successfully.");
-});
+// db.sequelize.sync({ force: false }).then(function () {
+//   // server.on("error", onError);
+//   // server.on("listening", onListening);
+//   console.log("Database created successfully.");
+// });
 
 
 /*
