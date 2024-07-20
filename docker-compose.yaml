@@ -1,0 +1,11 @@
+services:
+  FoodventenyApp:
+    image: ./
+    container_name: foodventeny
+    ports: 
+      - 3333:3333
+
+  postgres:
+    image: postgres:latest
+    ports: 
+      - 5432:5432
