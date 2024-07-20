@@ -66,7 +66,7 @@ function checkRole(username) {
 // functions to be exported
 const foodventenyController = {};
 
-foodventenyController.getApps = async (req, res) => {
+foodventenyController.getApps = async (req, res, next) => {
   try {
     // req.body will contain a username or role
     let username = 'pat3';
@@ -91,7 +91,7 @@ foodventenyController.getApps = async (req, res) => {
   }
 }
 
-foodventenyController.updateAppStatus = async (req, res) => {
+foodventenyController.updateAppStatus = async (req, res, next) => {
   try {
     // req.body will contain the id of the app to be updated
     let appId = 5;

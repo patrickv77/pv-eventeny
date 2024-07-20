@@ -1,12 +1,14 @@
 const path = require('path');
 const express = require('express');
 const db = require('./db/models/index');
+
 const foodventenyController = require('./controllers/foodventenyController');
+const apiRouter = require('./routes/api');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
+app.use('/api', apiRouter);
 
 app.get('/', (req, res) => {
   console.log('hello world, default route');

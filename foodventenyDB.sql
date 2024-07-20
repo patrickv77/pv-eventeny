@@ -12,12 +12,6 @@ CREATE TABLE "applications" (
   "vendor_space" varchar
 );
 
-CREATE TABLE "organization" (
-  "id" integer PRIMARY KEY,
-  "org_name" varchar,
-  "organizer" integer
-);
-
 CREATE TABLE "session" (
   "user" integer,
   "session_cookie" varchar,
@@ -25,7 +19,5 @@ CREATE TABLE "session" (
 );
 
 ALTER TABLE "applications" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
-
-ALTER TABLE "organization" ADD FOREIGN KEY ("organizer") REFERENCES "users" ("id");
 
 ALTER TABLE "session" ADD FOREIGN KEY ("user") REFERENCES "users" ("id");
