@@ -72,13 +72,16 @@ foodventenyController.getApps = async (req, res) => {
     let username = 'pat3';
     if(checkRole(username) === 'admin'){
       // return array of apps
-      return dbApps;
+      res.locals.userArray = dbApps;
+      return next();
     }else if(checkRole(username) === 'user'){
       const userAppArray = [];
       for(let app of dbApps) {
         if(app.user === username) userAppArray.push(app);
       }
-      return userAppArray;
+
+      res.locals.userArray = userAppArray;
+      return next();
     }else{
       return "ERROR: User not found"
     }
@@ -105,7 +108,7 @@ foodventenyController.updateAppStatus = async (req, res) => {
 
 module.exports = foodventenyController;
 
-console.log(checkRole('pat1'));
-console.log(foodventenyController.getApps())
-console.log(foodventenyController.updateAppStatus());
-console.log(foodventenyController.getApps())
+// console.log(checkRole('pat1'));
+// console.log(foodventenyController.getApps())
+// console.log(foodventenyController.updateAppStatus());
+// console.log(foodventenyController.getApps())
