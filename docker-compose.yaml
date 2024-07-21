@@ -1,22 +1,25 @@
 services:
-  FoodventenyApp:
-    server:
-      build: .
+  foodventeny_db:
+      build:
+        context: .
+        dockerfile: db/Dockerfile
+      environment:
+        POSTGRES_PASSWORD: 'postgres'
+        POSTGRES_USER: 'postgres'
       ports: 
-        - 3000:3000
+        - 5432:5432
+      volumes: 
+        - data:/var/lib/postgrsql/data
+
+  foodventeny_app:
+    build: .
+    ports: 
+      - 3000:3000
     container_name: foodventeny
     depends_on:
-      - postgres
-
-  postgres:
-    image: postgres:latest
-    environment:
-      - POSTGRES_PASSWORD: 'postgres'
-      - POSTGRES_USER: 'postgres'
-    ports: 
-      - 5432:5432
-    volumes: 
-      - data:/var/lib/postgrsql/data
+      - foodventeny_db
+      # foodventeny_db:
+        # condition: service_healthy
 
 volumes:
   data:
