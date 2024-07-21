@@ -20,6 +20,51 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
+        {
+          username: 'pat3',
+          password: 'helloworld3',
+          role: 'user',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ],
+      {}
+    );
+
+    await queryInterface.bulkInsert(
+      'applications',
+      [
+        {
+          user_id: '2',
+          vendor_space: 'table',
+          createdAt: new Date(),
+          status: 'approved',
+        },
+        {
+          user_id: '2',
+          vendor_space: 'food_truck',
+          createdAt: new Date(),
+          status: 'waitlisted',
+        },
+        {
+          user_id: '3',
+          vendor_space: 'table',
+          createdAt: new Date(),
+          status: 'waitlisted',
+        },
+        {
+          user_id: '3',
+          vendor_space: 'food_truck',
+          createdAt: new Date(),
+          status: 'approved',
+        },
+        {
+          user_id: '3',
+          vendor_space: 'food_truck',
+          createdAt: new Date(),
+          status: 'awaiting action',
+        },
+        
       ],
       {}
     );
