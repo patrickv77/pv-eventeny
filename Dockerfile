@@ -10,9 +10,6 @@ COPY . .
 
 EXPOSE 3000
 
-# RUN <<EOF
-# npx sequelize-cli db:migrate
-# npx sequelize-cli db:seed:all
-# EOF
+RUN chmod +x startup.sh
 
-CMD ["npm", "start"]
+ENTRYPOINT [ "./startup.sh" ]
