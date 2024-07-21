@@ -3,9 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
   <title>Document</title>
 </head>
 <body>
   <h1>Register</h1>
+
+  <form action="/users/register" method="POST">
+    <div>
+      <input type="text" id="username" name="username" placeholder="Username" required>
+    </div>
+    <div>
+      <input type="text" id="password" name="password" placeholder="Password" required>
+    </div>
+    <div>
+      <input type="text" id="password2" name="password2" placeholder="Confirm password" required>
+    </div>
+    <div>
+      <label for="lang">Role: </label>
+      <select name="role" id="role">
+        <option value="choose">Choose a role</option>
+        <option value="Admin">Admin</option>
+        <option value="User">User</option>
+      </select>
+    </div>
+    <div>
+      <input type="submit" value="Register" />
+    </div>
+    <a href="/users/login">Already registered? Login here</a>
+  </form>
 </body>
 </html>
