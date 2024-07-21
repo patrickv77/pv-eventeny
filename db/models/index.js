@@ -1,5 +1,5 @@
 'use strict';
-
+require("dotenv").config();
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
@@ -9,13 +9,9 @@ const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../../config/config.js')[env];
 const db = {};
 
-let sequelize = new Sequelize('postgres://postgres:postgres@foodventeny_db:5432/foodventeny');
-// let sequelize;
-// if (config.use_env_variable) {
-//   sequelize = new Sequelize(process.env[config.use_env_variable], config);
-// } else {
-//   sequelize = new Sequelize(config.database, config.username, config.password, config);
-// }
+const connectionString = `postgres://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`
+
+let sequelize = new Sequelize(connectionString);
 
 fs
   .readdirSync(__dirname)
