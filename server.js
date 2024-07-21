@@ -1,9 +1,12 @@
 const path = require('path');
 const express = require('express');
-// const db = require('./db/models/index');
+const db = require('./db/models/index');
+
+// const db = require('./database');
 
 const foodventenyController = require('./controllers/foodventenyController');
 const apiRouter = require('./routes/api');
+// const db = require('./db/models');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -11,9 +14,14 @@ const PORT = process.env.PORT || 3000;
 app.use('/api', apiRouter);
 
 app.get('/', (req, res) => {
-  console.log('hello world, default route');
-  return res.end();
+  console.log('log this in the console when default route is accessed');
+  return res.send('hello world, default route');
 });
+
+app.get('/test', async (req, res) => {
+  const users = await db.select().from('users');
+  res.json(users);
+})
 
 // Catch-all route handler for any requests to an unknown route
 app.use((req, res) => res.sendStatus(404));
@@ -34,6 +42,20 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
+
+// db.sequelize.sync();
+
+// const authenticateSequelize = async () => {
+//   try {
+//     await db.sequelize.authenticate("Connection has been established successfully.");
+//     console.log()
+//   } catch (error) {
+//     console.error("Unable to connect to the database: ", error);
+//   }
+// }
+
+// authenticateSequelize();
+
 // db.sequelize.sync({ force: false }).then(function () {
 //   // server.on("error", onError);
 //   // server.on("listening", onListening);
