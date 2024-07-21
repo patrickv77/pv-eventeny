@@ -12,11 +12,23 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use('/api', apiRouter);
+app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-  console.log('log this in the console when default route is accessed');
-  return res.send('hello world, default route');
+  res.render('index')
 });
+
+app.get('/users/register', (req, res) => {
+  res.render('register');
+})
+
+app.get('/users/login', (req, res) => {
+  res.render('login');
+})
+
+app.get('/users/dashboard', (req, res) => {
+  res.render('dashboard', {user: 'pat'});
+})
 
 app.get('/test', async (req, res) => {
   const users = await db.select().from('users');
@@ -42,80 +54,3 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));
-
-// db.sequelize.sync();
-
-// const authenticateSequelize = async () => {
-//   try {
-//     await db.sequelize.authenticate("Connection has been established successfully.");
-//     console.log()
-//   } catch (error) {
-//     console.error("Unable to connect to the database: ", error);
-//   }
-// }
-
-// authenticateSequelize();
-
-// db.sequelize.sync({ force: false }).then(function () {
-//   // server.on("error", onError);
-//   // server.on("listening", onListening);
-//   console.log("Database created successfully.");
-// });
-
-
-/*
-const http = require('http');
-// const url = require('url');
-const db = require('./db/models/index')
-const foodventenyController = require('./controllers/foodventenyController');
-
-const onError = 'onError';
-const onListening = 'onListening';
-
-const server = http.createServer(async (req, res) => {
-  // const parsedURL = url.parse(req.url, true);
-
-  // if(req.method ==='GET' && req.url === '/'){
-  //   try {
-  //     const users = await db.users.findAll();
-  //     res.render("index", { users });
-
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-  // if(req.method === 'POST' && req.url === '/') {
-  //   try{
-  //     const newUser = await db.users.create({...req.body});
-  //     res.json(newUser);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-
-  if(req.url === '/' && req.method === 'GET'){
-    foodventenyController.getApps(req,res);
-    res.writeHead(200, {'Content-Type':'text/html'});
-    res.end(res.locals.userArray);
-  }
-
-  if(req.url === '/hello' && req.method === 'GET'){
-    res.writeHead(200, {'Content-Type':'text/html'});
-    res.end('<h1>Hello World 2</h1>');
-  }else{
-    res.writeHead(404, {'Content-Type': 'application/json'});
-    res.end(JSON.stringify({message: 'Route Not Found'}));
-  }
-  
-});
-
-const PORT = process.env.PORT || 3000;
-
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-db.sequelize.sync({ force: false }).then(function () {
-  // server.on("error", onError);
-  // server.on("listening", onListening);
-  console.log("Database created successfully.");
-});
-*/
