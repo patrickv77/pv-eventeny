@@ -4,12 +4,17 @@ services:
         context: .
         dockerfile: db/Dockerfile
       environment:
-        POSTGRES_PASSWORD: 'postgres'
         POSTGRES_USER: 'postgres'
+        POSTGRES_PASSWORD: 'postgres'
       ports: 
         - 5432:5432
       volumes: 
         - data:/var/lib/postgrsql/data
+      healthcheck:
+        test: ["CMD-SHELL", "pg_isready -d foodventeny -U postgres"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
 
   foodventeny_app:
     build: .
@@ -17,9 +22,8 @@ services:
       - 3000:3000
     container_name: foodventeny
     depends_on:
-      - foodventeny_db
-      # foodventeny_db:
-        # condition: service_healthy
+      foodventeny_db:
+        condition: service_healthy
 
 volumes:
   data:
