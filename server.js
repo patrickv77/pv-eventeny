@@ -11,8 +11,11 @@ const apiRouter = require('./routes/api');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use('/api', apiRouter);
 app.set('view engine', 'ejs');
+app.use(express.urlencoded({extended: false}));
+
+// routes
+app.use('/api', apiRouter);
 
 app.get('/', (req, res) => {
   res.render('index')
