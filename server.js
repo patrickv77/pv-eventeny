@@ -1,21 +1,45 @@
 const path = require('path');
 const express = require('express');
-const db = require('./db/models/index');
-
-// const db = require('./database');
+const { db, user, application } = require('./db/models/');
 
 const foodventenyController = require('./controllers/foodventenyController');
 const apiRouter = require('./routes/api');
-// const db = require('./db/models');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
+app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
 // routes
 app.use('/api', apiRouter);
+
+app.post('/test/route', async (req, res) => {
+  const { username, password, role } = req.body;
+
+  try{
+    const testUser = await user.create({ username, password, role });
+
+    return res.status(200).json(testUser);
+  } catch(error){
+    console.log(error);
+    return res.status(500).json(error);
+  }
+  
+});
+
+app.get('/test/route', async (req, res) => {
+  try {
+    const apps = await application.findAll();
+
+    return res.json(apps);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json(error);
+  }
+}) 
+
 
 app.get('/', (req, res) => {
   res.render('index')
