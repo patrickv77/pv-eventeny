@@ -1,14 +1,5 @@
 const { db, user, application } = require('../db/models');
 
-// functions to be used locally
-// function checkRole(username) {
-//   for(let user of db) {
-//     if(user.username === username) return user.role;
-//   }
-  
-//   return "ERROR: User not found"
-// }
-
 // functions to be exported
 const foodventenyController = {};
 
