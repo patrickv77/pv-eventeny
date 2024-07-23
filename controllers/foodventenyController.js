@@ -15,7 +15,6 @@ const foodventenyController = {};
 foodventenyController.verifyUser = async (req, res, next) => {
   const { username, password } = req.body;
 
-  console.log('========', username, password,'========');
   try {
     const foundUser = await user.findOne({ where: { username: username, password: password } });
 
@@ -25,6 +24,24 @@ foodventenyController.verifyUser = async (req, res, next) => {
       res.locals.userRole = foundUser.role;
       res.locals.userID = foundUser.id;
     }
+
+    return next();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+foodventenyController.addUser = async (req, res, next) => {
+  const { username, password, password2, role } = req.body;
+  
+  if(password !== password2) {
+    return "ERROR: passwords do not match"  
+  }
+
+  // TODO: verify username doesnt already exist
+
+  try { 
+    await user.create({ username: username, password: password, role: role});
 
     return next();
   } catch (error) {
