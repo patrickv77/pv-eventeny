@@ -5,15 +5,19 @@ const foodventenyController = require('../controllers/foodventenyController');
 const router = express.Router();
 
 // ADD STARTER DATA REQUEST ROUTE HANDLER HERE
-router.post('/test/user',
+router.post('/login',
   foodventenyController.verifyUser,
   foodventenyController.getApps,
-  (req,res) => {
+  (req, res) => {
     return res.status(200).json(res.locals.userArray);
   }
-  // (req, res) => {
-  //   return res.status(200).json(res.locals.userArray);
-  // }
 );
+
+router.post('/register',
+  foodventenyController.addUser,
+  (req, res) => {
+    return res.status(200).json('Registration successful.')
+  }
+)
 
 module.exports = router;
