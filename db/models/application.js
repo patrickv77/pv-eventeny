@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  user.init({
+  application.init({
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
