@@ -1,35 +1,55 @@
 const { db, user, application } = require('../db/models');
 
 // functions to be used locally
-function checkRole(username) {
-  for(let user of db) {
-    if(user.username === username) return user.role;
-  }
+// function checkRole(username) {
+//   for(let user of db) {
+//     if(user.username === username) return user.role;
+//   }
   
-  return "ERROR: User not found"
-}
+//   return "ERROR: User not found"
+// }
 
 // functions to be exported
 const foodventenyController = {};
 
+foodventenyController.verifyUser = async (req, res, next) => {
+  const { username, password } = req.body;
+
+  console.log('========', username, password,'========');
+  try {
+    const foundUser = await user.findOne({ where: { username: username, password: password } });
+
+    if(foundUser === null){
+      // TODO: deal with user not found here
+    }else{
+      res.locals.userRole = foundUser.role;
+      res.locals.userID = foundUser.id;
+    }
+
+    return next();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 foodventenyController.getApps = async (req, res, next) => {
   try {
-    // req.body will contain a username or role
-    let username = 'pat3';
-    if(checkRole(username) === 'admin'){
-      // return array of apps
+    const dbApps = await application.findAll();
+
+    if(res.locals.userRole === 'admin'){
+      
       res.locals.userArray = dbApps;
       return next();
-    }else if(checkRole(username) === 'user'){
+    } else if (res.locals.userRole === 'user'){
       const userAppArray = [];
       for(let app of dbApps) {
-        if(app.user === username) userAppArray.push(app);
+        if(app.user_id === res.locals.userID) userAppArray.push(app);
       }
 
       res.locals.userArray = userAppArray;
       return next();
     }else{
-      return "ERROR: User not found"
+      return "ERROR: Not a valid role"
     }
 
   } catch (error) {
