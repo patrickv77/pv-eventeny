@@ -1,5 +1,6 @@
 #!/bin/bash
 
 npx sequelize db:migrate
-# npx sequelize db:seed:all
+# comment out seed command for production
+npx sequelize db:seed:all
 npm start
