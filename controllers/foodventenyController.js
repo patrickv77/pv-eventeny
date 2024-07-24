@@ -11,6 +11,8 @@ foodventenyController.verifyUser = async (req, res, next) => {
 
     if(foundUser === null){
       // TODO: deal with user not found here
+    //}else if(){ // password does not match
+
     }else{
       res.locals.userRole = foundUser.role;
       res.locals.userID = foundUser.id;
@@ -25,18 +27,35 @@ foodventenyController.verifyUser = async (req, res, next) => {
 foodventenyController.addUser = async (req, res, next) => {
   const { username, password, password2, role } = req.body;
   
-  if(password !== password2) {
-    return "ERROR: passwords do not match"  
+  let registrationErrors = [];
+
+  const foundUser = await user.findOne({ where: { username: username } })
+
+  if(foundUser !== null) {
+    registrationErrors.push({ message: "Username already exists" })
   }
 
-  // TODO: verify username doesnt already exist
+  if(!username || !password || !password2 || !role){
+    registrationErrors.push({ message: "Please enter all fields" });
+  }
 
-  try { 
-    await user.create({ username: username, password: password, role: role});
+  if(password !== password2) {
+    registrationErrors.push({ message: "Passwords do not match" }); 
+  }
 
-    return next();
-  } catch (error) {
-    console.log(error);
+  if(registrationErrors.length > 0) {
+    res.render('register', { registrationErrors });
+  } else {
+    // password hashing
+    let hashedPassword = await
+
+    try { 
+      await user.create({ username: username, password: password, role: role});
+  
+      return next();
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
