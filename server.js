@@ -45,21 +45,20 @@ app.get('/', (req, res) => {
   res.render('index')
 });
 
-app.get('/users/register', (req, res) => {
+app.get('/register', (req, res) => {
   res.render('register');
 })
 
-app.get('/users/login', (req, res) => {
+app.get('/login', (req, res) => {
   res.render('login');
 })
 
-app.get('/users/dashboard', (req, res) => {
-  res.render('dashboard', {user: 'pat'});
+app.get('/adminDashboard', (req, res) => {
+  res.render('adminDashboard', {user: 'pat'});
 })
 
-app.get('/test', async (req, res) => {
-  const users = await db.select().from('users');
-  res.json(users);
+app.get('/userDashboard', (req, res) => {
+  res.render('userDashboard', {user: 'pat'});
 })
 
 // Catch-all route handler for any requests to an unknown route
