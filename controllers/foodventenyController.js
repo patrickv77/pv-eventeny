@@ -1,4 +1,16 @@
 const { db, user, application } = require('../db/models');
+const bcrypt = require('bcryptjs');
+
+let salt = bcrypt.genSaltSync(10);
+
+// functions for use locally
+
+// function that hashes a password for storage in the database
+async function hashPass(unhashedPassword) {
+  const hashedPassword = await bcrypt.hash(unhashedPassword, salt);
+
+  return hashedPassword;
+}
 
 // functions to be exported
 const foodventenyController = {};
@@ -7,12 +19,16 @@ foodventenyController.verifyUser = async (req, res, next) => {
   const { username, password } = req.body;
 
   try {
-    const foundUser = await user.findOne({ where: { username: username, password: password } });
+    const foundUser = await user.findOne({ where: { username: username } });
+    // check password
+    const compare = bcrypt.compareSync(password, foundUser.password);
 
     if(foundUser === null){
       // TODO: deal with user not found here
-    //}else if(){ // password does not match
-
+      return res.status(401).json('User not found');
+    }else if(!compare){ 
+      // TODO: deal with password not matching
+      return res.status(401).json('Wrong password');
     }else{
       res.locals.userRole = foundUser.role;
       res.locals.userID = foundUser.id;
@@ -46,11 +62,11 @@ foodventenyController.addUser = async (req, res, next) => {
   if(registrationErrors.length > 0) {
     res.render('register', { registrationErrors });
   } else {
-    // password hashing
-    let hashedPassword = await
+    const hashword = await hashPass(password);
+    console.log(hashword)
 
     try { 
-      await user.create({ username: username, password: password, role: role});
+      await user.create({ username: username, password: hashword, role: role});
   
       return next();
     } catch (error) {
