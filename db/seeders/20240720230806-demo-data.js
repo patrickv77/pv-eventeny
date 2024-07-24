@@ -8,21 +8,24 @@ module.exports = {
       [
         {
           username: 'pat1',
-          password: 'helloworld1',
+          password: '$2a$10$d2x3SoJn8fPrgissAY1aRekXSPzggCaCu/svUt2pPH0d79WiDUjeS',
+          //helloworld1
           role: 'admin',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           username: 'pat2',
-          password: 'helloworld2',
+          password: '$2a$10$74ys6gU25dtfUZu3KsmB5.S9n/YIbVzu9GNTSq9m68K7jwI45E68a',
+          //helloworld2
           role: 'user',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           username: 'pat3',
-          password: 'helloworld3',
+          password: '$2a$10$VS.rgo8EEx5I52d4N2NmOeHnuCNbWughkN9YbUCuMz8JWhEzbHGvi',
+          //helloworld3
           role: 'user',
           createdAt: new Date(),
           updatedAt: new Date(),
