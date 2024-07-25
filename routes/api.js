@@ -9,7 +9,9 @@ router.post('/login',
   foodventenyController.verifyUser,
   foodventenyController.getApps,
   (req, res) => {
-    return res.status(200).json(res.locals.userArray);
+    const applicationList = res.locals.appArray;
+
+    res.render('userDashboard', { applicationList })
   }
 );
 

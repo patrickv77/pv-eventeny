@@ -43,7 +43,7 @@ foodventenyController.verifyUser = async (req, res, next) => {
 foodventenyController.addUser = async (req, res, next) => {
   const { username, password, password2, role } = req.body;
   
-  let registrationErrors = [];
+  const registrationErrors = [];
 
   const foundUser = await user.findOne({ where: { username: username } })
 
@@ -81,7 +81,7 @@ foodventenyController.getApps = async (req, res, next) => {
 
     if(res.locals.userRole === 'admin'){
       
-      res.locals.userArray = dbApps;
+      res.locals.appArray = dbApps;
       return next();
     } else if (res.locals.userRole === 'user'){
       const userAppArray = [];
@@ -89,7 +89,7 @@ foodventenyController.getApps = async (req, res, next) => {
         if(app.user_id === res.locals.userID) userAppArray.push(app);
       }
 
-      res.locals.userArray = userAppArray;
+      res.locals.appArray = userAppArray;
       return next();
     }else{
       return "ERROR: Not a valid role"
