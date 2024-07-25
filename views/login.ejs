@@ -1,25 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
-  <title>Document</title>
-</head>
-<body>
-  <h1>Login</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Login</h1>
 
-  <form action="/api/login" method="POST">
-    <div>
-      <input type="text" id="username" name="username" placeholder="Username" required>
-    </div>
-    <div>
-      <input type="text" id="password" name="password" placeholder="Password" required>
-    </div>
-    <div>
-      <input type="submit" value="Login" />
-    </div>
-    <a href="/register">Register here</a>
-  </form>
-</body>
+    <form action="/api/login" method="POST">
+      <div>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          placeholder="Username"
+          required
+        />
+      </div>
+      <div>
+        <input
+          type="text"
+          id="password"
+          name="password"
+          placeholder="Password"
+          required
+        />
+      </div>
+      <div>
+        <input type="submit" value="Login" />
+      </div>
+      <a href="/register">Register here</a>
+    </form>
+  </body>
 </html>
