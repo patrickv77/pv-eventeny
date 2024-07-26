@@ -63,6 +63,13 @@ module.exports = {
           vendor_space: 'food_truck',
           createdAt: new Date(),
           updatedAt: new Date(),
+          status: 'rejected',
+        },
+        {
+          user_id: '3',
+          vendor_space: 'food_truck',
+          createdAt: new Date(),
+          updatedAt: new Date(),
           status: 'approved',
         },
         {
@@ -70,7 +77,7 @@ module.exports = {
           vendor_space: 'food_truck',
           createdAt: new Date(),
           updatedAt: new Date(),
-          status: 'awaiting action',
+          status: 'awaiting_action',
         },
         
       ],
