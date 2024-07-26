@@ -102,13 +102,10 @@ foodventenyController.getApps = async (req, res, next) => {
 
 foodventenyController.updateAppStatus = async (req, res, next) => {
   try {
-    // req.body will contain the id of the app to be updated
-    let appId = 5;
-    for(let app of dbApps) {
-      if(app.id === appId) app.status = 'approved'
-    }
+    const { id, status } = req.body;
 
-    console.log(dbApps[4].status);
+    await application.update({ status: status }, { where: { id: id } });
+    
     return 'Success'
   } catch (error) {
     console.log(error); 
