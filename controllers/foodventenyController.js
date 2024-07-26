@@ -79,6 +79,11 @@ foodventenyController.getApps = async (req, res, next) => {
   try {
     const dbApps = await application.findAll();
 
+    for(app of dbApps) {
+      const tempUser = await user.findOne({ where: { id: app.user_id}});
+      app.user_id = tempUser.username;
+    }
+
     if(res.locals.userRole === 'admin'){
       
       res.locals.appArray = dbApps;
@@ -102,7 +107,8 @@ foodventenyController.getApps = async (req, res, next) => {
 
 foodventenyController.updateAppStatus = async (req, res, next) => {
   try {
-    const { id, status } = req.body;
+    const id = req.params.id;
+    const { status } = req.body;
 
     await application.update({ status: status }, { where: { id: id } });
     
@@ -110,6 +116,14 @@ foodventenyController.updateAppStatus = async (req, res, next) => {
   } catch (error) {
     console.log(error); 
   }
+}
+
+foodventenyController.createApplication = async (req, res, next) => {
+
+}
+
+foodventenyController.addApplication = async (req, res, next) => {
+  
 }
 
 module.exports = foodventenyController;

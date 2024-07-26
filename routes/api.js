@@ -25,7 +25,7 @@ router.post('/register',
   return res.status(200).json('Registration successful.');
 });
 
-router.post('/status',
+router.put('/status/:id',
   foodventenyController.updateAppStatus,
   (req, res) => {
     return res.status(200).json('Status update successful.')

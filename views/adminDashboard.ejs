@@ -21,6 +21,9 @@
         padding: 20px;
         box-sizing: border-box;
         position: fixed;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
       .sidebar a {
         color: white;
@@ -83,8 +86,12 @@
   </head>
   <body>
     <div class="sidebar">
-      <a href="/adminAppTemplates">Application Templates</a>
-      <a href="/adminSubmittedApps">Submitted Applications</a>
+      <div>
+        <h2>Menu</h2>
+        <a href="/adminAppTemplates">Application Templates</a>
+        <a href="/adminSubmittedApps">Submitted Applications</a>
+      </div>
+      <a href="/login">Logout</a>
     </div>
 
     <div class="main-content">
@@ -128,12 +135,12 @@
           const appId = this.getAttribute('data-app-id');
           const newStatus = this.value;
 
-          fetch('/api/status', {
-            method: 'POST',
+          fetch(`/api/status/${appId}`, {
+            method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ id: appId, status: newStatus }),
+            body: JSON.stringify({ status: newStatus }),
           })
             .then((response) => response.json())
             .then((data) => {
