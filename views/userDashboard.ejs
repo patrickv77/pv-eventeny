@@ -11,14 +11,29 @@
   </head>
   <body>
     <h1>Dashboard</h1>
-    
-    <a href="/logout">Logout</a>
-    <ul>
-      <% if(typeof applicationList != 'undefined') { %> <%
-      applicationList.forEach(app=>{ %>
-      <li><%=app.id %> | <%=app.user_id %> | <%=app.vendor_space %> | <%=app.status %></li>
-      <% }) %> <% } %>
-    </ul>
+
+    <h2>Applications Table</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>app_id</th>
+          <th>user</th>
+          <th>vendor_space</th>
+          <th>status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% applicationList.forEach(app => { %>
+        <tr>
+          <td><%= app.id %></td>
+          <td><%= app.user_id %></td>
+          <td><%= app.vendor_space %></td>
+          <td><%= app.status %></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
 
     <a href="/logout">Logout</a>
   </body>
