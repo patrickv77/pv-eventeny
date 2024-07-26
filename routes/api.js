@@ -11,15 +11,25 @@ router.post('/login',
   (req, res) => {
     const applicationList = res.locals.appArray;
 
-    res.render('userDashboard', { applicationList })
+    if (res.locals.userRole === 'admin') {
+      res.render('adminDashboard', { applicationList });
+    } else {
+      res.render('userDashboard', { applicationList });
+    }
   }
 );
 
-router.post('/register',
-  foodventenyController.addUser,
+router.post('/register', 
+  foodventenyController.addUser, 
   (req, res) => {
-    return res.status(200).json('Registration successful.')
+  return res.status(200).json('Registration successful.');
+});
+
+router.post('/status',
+  foodventenyController.updateAppStatus,
+  (req, res) => {
+    return res.status(200).json('Status update successful.')
   }
-)
+);
 
 module.exports = router;
