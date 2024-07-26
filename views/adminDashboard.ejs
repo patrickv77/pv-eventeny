@@ -7,11 +7,145 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
     />
-    <title>Document</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        display: flex;
+      }
+      .sidebar {
+        height: 100vh;
+        width: 250px;
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        box-sizing: border-box;
+        position: fixed;
+      }
+      .sidebar a {
+        color: white;
+        text-decoration: none;
+        display: block;
+        padding: 10px 0;
+      }
+      .sidebar a:hover {
+        background-color: #575757;
+      }
+      .main-content {
+        margin-left: 250px;
+        padding: 20px;
+        width: 100%;
+      }
+      .table-container {
+        max-height: 80vh; /* 80% of the viewport height */
+        overflow-y: auto;
+        border: 1px solid #ddd;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+      .status-circle {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+      .approved {
+        background-color: green;
+      }
+      .waitlisted {
+        background-color: yellow;
+      }
+      .rejected {
+        background-color: red;
+      }
+      .awaiting_action {
+        background-color: darkgrey;
+      }
+    </style>
   </head>
   <body>
-    <h1>Dashboard</h1>
-    <a href="/logout">Logout</a>
-    <p>Hello, <%= user %></p>
+    <div class="sidebar">
+      <a href="/adminAppTemplates">Application Templates</a>
+      <a href="/adminSubmittedApps">Submitted Applications</a>
+    </div>
+
+    <div class="main-content">
+      <h2>Applications Table</h2>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>app_id</th>
+              <th>user</th>
+              <th>vendor_space</th>
+              <th>status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% applicationList.forEach(app => { %>
+            <tr>
+              <td><%= app.id %></td>
+              <td><%= app.user_id %></td>
+              <td><%= app.vendor_space %></td>
+              <td>
+                <select class="status-dropdown" data-app-id="<%= app.id %>">
+                  <option value="approved" <%= app.status === 'approved' ? 'selected' : '' %>>Approved</option>
+                  <option value="waitlisted" <%= app.status === 'waitlisted' ? 'selected' : '' %>>Waitlisted</option>
+                  <option value="rejected" <%= app.status === 'rejected' ? 'selected' : '' %>>Rejected</option>
+                  <option value="awaiting_action" <%= app.status === 'awaiting_action' ? 'selected' : '' %>>Awaiting action</option>
+                </select>
+                <span class="status-circle <%= app.status.replace(' ', '-') %>"></span>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      document.querySelectorAll('.status-dropdown').forEach((dropdown) => {
+        dropdown.addEventListener('change', function () {
+          const appId = this.getAttribute('data-app-id');
+          const newStatus = this.value;
+
+          fetch('/api/status', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: appId, status: newStatus }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                alert('Status updated successfully');
+              } else {
+                alert('Error updating status');
+              }
+            })
+            .catch((error) => console.error('Error:', error));
+        });
+      });
+    </script>
   </body>
 </html>
