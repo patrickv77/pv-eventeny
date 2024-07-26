@@ -54,11 +54,19 @@ app.get('/login', (req, res) => {
 })
 
 app.get('/adminDashboard', (req, res) => {
-  res.render('adminDashboard', {user: 'pat'});
+  res.render('adminDashboard');
 })
 
 app.get('/userDashboard', (req, res) => {
-  res.render('userDashboard', {user: 'pat'});
+  res.render('userDashboard');
+})
+
+app.get('/adminAppTemplates', (req, res) => {
+  res.render('adminAppTemplates');
+})
+
+app.get('/adminSubmittedApps', (req, res) => {
+  res.render('adminSubmittedApps');
 })
 
 // Catch-all route handler for any requests to an unknown route
