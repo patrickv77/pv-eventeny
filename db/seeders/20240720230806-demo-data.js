@@ -35,46 +35,69 @@ module.exports = {
     );
 
     await queryInterface.bulkInsert(
+      'app_template',
+      [
+        {
+          vendor_type: 'food_truck',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          vendor_type: 'table',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ],
+      {}
+    );
+
+    await queryInterface.bulkInsert(
       'applications',
       [
         {
           user_id: '2',
-          vendor_space: 'table',
+          vendor_space: 2,
+          description: 'gotta table',
           createdAt: new Date(),
           updatedAt: new Date(),
           status: 'approved',
         },
         {
           user_id: '2',
-          vendor_space: 'food_truck',
+          vendor_space: 1,
+          description: 'gotta vend',
           createdAt: new Date(),
           updatedAt: new Date(),
           status: 'waitlisted',
         },
         {
           user_id: '3',
-          vendor_space: 'table',
+          vendor_space: 2,
+          description: 'gotta spread the word',
           createdAt: new Date(),
           updatedAt: new Date(),
           status: 'waitlisted',
         },
         {
           user_id: '3',
-          vendor_space: 'food_truck',
+          vendor_space: 1,
+          description: 'gotta sell that food',
           createdAt: new Date(),
           updatedAt: new Date(),
           status: 'rejected',
         },
         {
           user_id: '3',
-          vendor_space: 'food_truck',
+          vendor_space: 1,
+          description: 'gotta make that money',
           createdAt: new Date(),
           updatedAt: new Date(),
           status: 'approved',
         },
         {
           user_id: '3',
-          vendor_space: 'food_truck',
+          vendor_space: 1,
+          description: 'gotta chase that bag',
           createdAt: new Date(),
           updatedAt: new Date(),
           status: 'awaiting_action',

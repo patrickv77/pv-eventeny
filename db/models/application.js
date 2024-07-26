@@ -28,11 +28,24 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     vendor_space: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+      references: {
+        model: {
+          tableName: 'app_template'
+        },
+        key: 'id',
+      }
+    },
+    description: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notEmpty: true,
-      }
+      },
     },
     status: {
       type: DataTypes.STRING,

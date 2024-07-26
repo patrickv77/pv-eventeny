@@ -30,6 +30,26 @@ module.exports = {
           }
         },
         { transaction: t }),
+        queryInterface.createTable('app_template', {
+          id: {
+            allowNull: false,
+            autoIncrement: true,
+            primaryKey: true,
+            type: Sequelize.INTEGER
+          },
+          vendor_type: {
+            type: Sequelize.STRING
+          },
+          createdAt: {
+            allowNull: false,
+            type: Sequelize.DATE
+          },
+          updatedAt: {
+            allowNull: false,
+            type: Sequelize.DATE
+          }
+        },
+        { transaction: t }),
         queryInterface.createTable('applications', {
           id: {
             allowNull: false,
@@ -47,6 +67,9 @@ module.exports = {
             },
           },
           vendor_space: {
+            type: Sequelize.STRING
+          },
+          description: {
             type: Sequelize.STRING
           },
           status: {
