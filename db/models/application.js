@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class application extends Model {
     /**
@@ -13,50 +11,53 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  application.init({
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-      references: {
-        model: {
-          tableName: 'user'
+  application.init(
+    {
+      user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
         },
-        key: 'id',
-      }
-    },
-    vendor_space: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-      references: {
-        model: {
-          tableName: 'app_template'
+        references: {
+          model: {
+            tableName: 'user',
+          },
+          key: 'id',
         },
-        key: 'id',
-      }
-    },
-    description: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
+      },
+      vendor_space: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+        references: {
+          model: {
+            tableName: 'app_template',
+          },
+          key: 'id',
+        },
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+      },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
       },
     },
-    status: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      }
-    },
-  }, {
-    sequelize,
-    modelName: 'application',
-  });
+    {
+      sequelize,
+      modelName: 'application',
+    }
+  );
   return application;
 };

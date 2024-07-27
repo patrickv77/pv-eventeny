@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class app_template extends Model {
     /**
@@ -13,17 +11,21 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  app_template.init({
-    vendor_type: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      }
+  app_template.init(
+    {
+      vendor_type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+      },
     },
-  }, {
-    sequelize,
-    modelName: 'app_template',
-  });
+    {
+      sequelize,
+      modelName: 'app_template',
+      tableName: 'app_template',
+    }
+  );
   return app_template;
 };
