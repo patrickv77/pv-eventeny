@@ -4,7 +4,6 @@ const foodventenyController = require('../controllers/foodventenyController');
 
 const router = express.Router();
 
-// ADD STARTER DATA REQUEST ROUTE HANDLER HERE
 router.post('/login',
   foodventenyController.verifyUser,
   foodventenyController.getApps,
@@ -29,6 +28,15 @@ router.put('/status/:id',
   foodventenyController.updateAppStatus,
   (req, res) => {
     return res.status(200).json('Status update successful.')
+  }
+);
+
+router.get('/templates', 
+  foodventenyController.getAppTemplates,
+  (req, res) => {
+    const appTemplatesList = res.locals.appTemplatesList;
+    
+    res.render('adminAppTemplates', { appTemplatesList });
   }
 );
 
