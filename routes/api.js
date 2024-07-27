@@ -35,9 +35,34 @@ router.get('/templates',
   foodventenyController.getAppTemplates,
   (req, res) => {
     const appTemplatesList = res.locals.appTemplatesList;
-    
+
     res.render('adminAppTemplates', { appTemplatesList });
   }
 );
+
+router.post('/templates',
+  foodventenyController.createApplicationTemplate,
+  foodventenyController.getAppTemplates,
+  (req, res) => {
+    const appTemplatesList = res.locals.appTemplatesList;
+    res.render('adminAppTemplates', { appTemplatesList })
+  }
+)
+
+router.get('/createApp',
+  foodventenyController.getVendorTypes,
+  (req, res) => {
+    const vendorTypes = res.locals.vendorTypesList;
+    res.render('submitApp', { vendorTypes });
+  }
+);
+
+router.post('/submission',
+  foodventenyController.submitApplication,
+  (req, res) => {
+    
+    res.render()
+  }
+)
 
 module.exports = router;
