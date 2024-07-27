@@ -88,8 +88,8 @@
     <div class="sidebar">
       <div>
         <h2>Menu</h2>
-        <a href="/adminAppTemplates">Application Templates</a>
-        <a href="/adminSubmittedApps">Submitted Applications</a>
+        <a href="/api/templates">Application Templates</a>
+        <a href="#" onclick="window.location.reload(true);">Submitted Applications</a>
       </div>
       <a href="/login">Logout</a>
     </div>
@@ -104,6 +104,7 @@
               <th>app_id</th>
               <th>user</th>
               <th>vendor_space</th>
+              <th>description</th>
               <th>status</th>
             </tr>
           </thead>
@@ -113,6 +114,7 @@
               <td><%= app.id %></td>
               <td><%= app.user_id %></td>
               <td><%= app.vendor_space %></td>
+              <td><%= app.description %></td>
               <td>
                 <select class="status-dropdown" data-app-id="<%= app.id %>">
                   <option value="approved" <%= app.status === 'approved' ? 'selected' : '' %>>Approved</option>
