@@ -127,13 +127,22 @@ foodventenyController.getAppTemplates = async (req, res, next) => {
   return next();
 }
 
-foodventenyController.createApplicationTemplate = async (req, res, next) => {};
+foodventenyController.createApplicationTemplate = async (req, res, next) => {
+  const { vendor_type } = req.body;
+  app_template.create({ vendor_type: vendor_type });
 
-foodventenyController.submitApplication = async (req, res, next) => {};
+  return next();
+};
+
+foodventenyController.getVendorTypes = async (req, res, next) => {
+  res.locals.vendorTypesList = await app_template.findAll({attributes: ['vendor_type']}).then(apps => apps.map(app => app.vendor_type));
+  
+  return next();
+}
+
+foodventenyController.submitApplication = async (req, res, next) => {
+  const { vendorType, description } = req.body;
+  
+};
 
 module.exports = foodventenyController;
-
-// console.log(checkRole('pat1'));
-// console.log(foodventenyController.getApps())
-// console.log(foodventenyController.updateAppStatus());
-// console.log(foodventenyController.getApps())
