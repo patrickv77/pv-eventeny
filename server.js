@@ -59,6 +59,10 @@ app.get('/userDashboard', (req, res) => {
   res.render('userDashboard');
 });
 
+app.get('/template', (req, res) => {
+  res.render('template');
+})
+
 // Catch-all route handler for any requests to an unknown route
 app.use((req, res) => res.sendStatus(404));
 
