@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 // routes
 app.use('/api', apiRouter);
@@ -18,15 +18,14 @@ app.use('/api', apiRouter);
 app.post('/test/route', async (req, res) => {
   const { username, password, role } = req.body;
 
-  try{
+  try {
     const testUser = await user.create({ username, password, role });
 
     return res.status(200).json(testUser);
-  } catch(error){
+  } catch (error) {
     console.log(error);
     return res.status(500).json(error);
   }
-  
 });
 
 app.get('/test/route', async (req, res) => {
@@ -38,36 +37,27 @@ app.get('/test/route', async (req, res) => {
     console.log(error);
     return res.status(500).json(error);
   }
-}) 
-
+});
 
 app.get('/', (req, res) => {
-  res.render('index')
+  res.render('index');
 });
 
 app.get('/register', (req, res) => {
   res.render('register');
-})
+});
 
 app.get('/login', (req, res) => {
   res.render('login');
-})
+});
 
 app.get('/adminDashboard', (req, res) => {
   res.render('adminDashboard');
-})
+});
 
 app.get('/userDashboard', (req, res) => {
   res.render('userDashboard');
-})
-
-app.get('/adminAppTemplates', (req, res) => {
-  res.render('adminAppTemplates');
-})
-
-app.get('/adminSubmittedApps', (req, res) => {
-  res.render('adminSubmittedApps');
-})
+});
 
 // Catch-all route handler for any requests to an unknown route
 app.use((req, res) => res.sendStatus(404));
@@ -77,7 +67,7 @@ app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
     status: 400,
-    message: { err: 'An error occurred' }, 
+    message: { err: 'An error occurred' },
   };
 
   const errorObj = Object.assign({}, defaultErr, err);
