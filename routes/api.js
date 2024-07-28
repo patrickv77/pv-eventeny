@@ -1,10 +1,18 @@
 const express = require('express');
+const passport = require('passport');
+
+const initializePassport = require('../passportConfig');
+initializePassport(passport);
 
 const foodventenyController = require('../controllers/foodventenyController');
 
 const router = express.Router();
 
-router.post('/login',
+router.post(
+  '/login',
+  passport.authenticate('local', {
+    failureFlash: false,
+  }),
   foodventenyController.verifyUser,
   foodventenyController.getApps,
   (req, res) => {
@@ -18,51 +26,41 @@ router.post('/login',
   }
 );
 
-router.post('/register', 
-  foodventenyController.addUser, 
-  (req, res) => {
+router.post('/register', foodventenyController.addUser, (req, res) => {
   return res.status(200).json('Registration successful.');
 });
 
-router.put('/status/:id',
-  foodventenyController.updateAppStatus,
-  (req, res) => {
-    return res.status(200).json('Status update successful.')
-  }
-);
+router.put('/status/:id', foodventenyController.updateAppStatus, (req, res) => {
+  return res.status(200).json('Status update successful.');
+});
 
-router.get('/templates', 
-  foodventenyController.getAppTemplates,
-  (req, res) => {
-    const appTemplatesList = res.locals.appTemplatesList;
+router.get('/templates', foodventenyController.getAppTemplates, (req, res) => {
+  const appTemplatesList = res.locals.appTemplatesList;
 
-    res.render('adminAppTemplates', { appTemplatesList });
-  }
-);
+  res.render('adminAppTemplates', { appTemplatesList });
+});
 
-router.post('/templates',
+router.post(
+  '/templates',
   foodventenyController.createApplicationTemplate,
   foodventenyController.getAppTemplates,
   (req, res) => {
     const appTemplatesList = res.locals.appTemplatesList;
-    res.render('adminAppTemplates', { appTemplatesList })
-  }
-)
-
-router.get('/createApp',
-  foodventenyController.getVendorTypes,
-  (req, res) => {
-    const vendorTypes = res.locals.vendorTypesList;
-    res.render('submitApp', { vendorTypes });
+    res.render('adminAppTemplates', { appTemplatesList });
   }
 );
 
-router.post('/submission',
+router.get('/createApp', foodventenyController.getVendorTypes, (req, res) => {
+  const vendorTypes = res.locals.vendorTypesList;
+  res.render('submitApp', { vendorTypes });
+});
+
+router.post(
+  '/submission',
   foodventenyController.submitApplication,
   (req, res) => {
-    
-    res.render()
+    res.render();
   }
-)
+);
 
 module.exports = router;

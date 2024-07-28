@@ -18,6 +18,9 @@ const foodventenyController = {};
 foodventenyController.verifyUser = async (req, res, next) => {
   const { username, password } = req.body;
 
+  console.log(req.user.username);
+  console.log(req.user.password);
+  console.log(req.user.role);
   try {
     const foundUser = await user.findOne({ where: { username: username } });
     // check password

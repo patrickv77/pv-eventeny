@@ -1,8 +1,7 @@
-const path = require('path');
 const express = require('express');
-const { db, user, application } = require('./db/models/');
+const session = require('express-session');
+const passport = require('passport');
 
-const foodventenyController = require('./controllers/foodventenyController');
 const apiRouter = require('./routes/api');
 
 const app = express();
@@ -11,34 +10,18 @@ const PORT = process.env.PORT || 3000;
 app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(session({
+  secret:'foodventeny_secret',
+  resave: false,
+  saveUninitialized: false,
+}))
+app.use(passport.initialize());
+app.use(passport.session());
 
 // routes
 app.use('/api', apiRouter);
 
-app.post('/test/route', async (req, res) => {
-  const { username, password, role } = req.body;
-
-  try {
-    const testUser = await user.create({ username, password, role });
-
-    return res.status(200).json(testUser);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json(error);
-  }
-});
-
-app.get('/test/route', async (req, res) => {
-  try {
-    const apps = await application.findAll();
-
-    return res.json(apps);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json(error);
-  }
-});
-
+// ejs renders
 app.get('/', (req, res) => {
   res.render('index');
 });
