@@ -45,26 +45,20 @@ router.post(
   }
 );
 
-router.get('/createApp', foodventenyController.getVendorTypes, (req, res) => {
-  const vendorTypes = res.locals.vendorTypesList;
-  res.render('submitApp', { vendorTypes });
-});
+// router.get('/createApp', foodventenyController.getVendorTypes, (req, res) => {
+//   const vendorTypes = res.locals.vendorTypesList;
+//   res.render('submitApp', { vendorTypes });
+// });
 
 router.post(
   '/submission',
   foodventenyController.submitApplication,
-  foodventenyController.getApps,
   (req, res) => {
-    const applicationList = res.locals.appArray;
 
-    res.render('userDashboard', { applicationList });
+    res.redirect('/userDashboard');
   }
 );
 
-router.get('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    res.redirect('/login');
-  });
-});
+
 
 module.exports = router;

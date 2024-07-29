@@ -39,8 +39,19 @@ router.get('/adminAppTemplates',
   res.render('adminAppTemplates', { appTemplatesList })
 });
 
+router.get('/submitApp', foodventenyController.getVendorTypes, (req, res) => {
+  const vendorTypes = res.locals.vendorTypesList;
+  res.render('submitApp', { vendorTypes });
+});
+
 router.get('/newTemplate', (req, res) => {
   res.render('newTemplate');
 })
+
+router.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    res.redirect('/login');
+  });
+});
 
 module.exports = router;
