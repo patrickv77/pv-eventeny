@@ -17,18 +17,14 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
-router.get('/adminDashboard', foodventenyController.getApps,
+router.get('/dashboard',
+  foodventenyController.getApps,
   (req, res) => {
-  const applicationList = res.locals.appArray;
+    const dash = {};
+    dash.applicationList = res.locals.appArray;
+    dash.role = req.user.role;
 
-  res.render('adminDashboard', { applicationList });
-});
-
-router.get('/userDashboard', foodventenyController.getApps, 
-  (req, res) => {
-  const applicationList = res.locals.appArray;
-
-  res.render('userDashboard', { applicationList });
+    res.render('dashboard', { dash });
 });
 
 router.get('/adminAppTemplates',

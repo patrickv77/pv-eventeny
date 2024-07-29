@@ -19,7 +19,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// routes
+// Routes
 app.use('/api', apiRouter);
 app.use('/', viewsRouter);
 

@@ -88,8 +88,14 @@
     <div class="sidebar">
       <div>
         <h2>Menu</h2>
-        <a href="/adminAppTemplates">Application Templates</a>
-        <a href="/adminDashboard">Submitted Applications</a>
+        <% if(typeof dash !== 'undefined') { %> 
+          <% if(dash.role === 'admin'){ %>
+            <a href="/adminAppTemplates">Application Templates</a>
+          <% } else { %>
+            <a href="/submitApp">Submit New Application</a>
+          <%} %>
+        <% } %>
+        <a href="/dashboard">Submitted Applications</a>
       </div>
       <a href="/logout">Logout</a>
     </div>
@@ -97,7 +103,7 @@
     <div class="main-content">
       <h2>Applications</h2>
 
-      <% if(typeof applicationList != 'undefined') { %>
+      <% if(typeof dash !== 'undefined') { %>
       <div class="table-container">
         <table>
           <thead>
@@ -110,20 +116,24 @@
             </tr>
           </thead>
           <tbody>
-            <% applicationList.forEach(app => { %>
+            <% dash.applicationList.forEach(app => { %>
             <tr>
               <td><%= app.id %></td>
               <td><%= app.user_id %></td>
               <td><%= app.vendor_space %></td>
               <td><%= app.description %></td>
               <td>
-                <span class="status-circle <%= app.status.replace(' ', '-') %>"></span>
-                <select class="status-dropdown" data-app-id="<%= app.id %>">
-                  <option value="approved" <%= app.status === 'approved' ? 'selected' : '' %>>Approved</option>
-                  <option value="waitlisted" <%= app.status === 'waitlisted' ? 'selected' : '' %>>Waitlisted</option>
-                  <option value="rejected" <%= app.status === 'rejected' ? 'selected' : '' %>>Rejected</option>
-                  <option value="awaiting_action" <%= app.status === 'awaiting_action' ? 'selected' : '' %>>Awaiting action</option>
-                </select>
+                <span class="status-circle <%= app.status %>"></span>
+                <% if(dash.role === 'admin') { %>
+                  <select class="status-dropdown" data-app-id="<%= app.id %>">
+                    <option value="approved" <%= app.status === 'approved' ? 'selected' : '' %>>Approved</option>
+                    <option value="waitlisted" <%= app.status === 'waitlisted' ? 'selected' : '' %>>Waitlisted</option>
+                    <option value="rejected" <%= app.status === 'rejected' ? 'selected' : '' %>>Rejected</option>
+                    <option value="awaiting_action" <%= app.status === 'awaiting_action' ? 'selected' : '' %>>Awaiting action</option>
+                  </select>
+                <% } else { %>
+                  <span><%= app.status %></span>
+                <% } %>
               </td>
             </tr>
             <% }); %>

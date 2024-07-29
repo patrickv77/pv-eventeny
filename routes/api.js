@@ -8,17 +8,13 @@ const foodventenyController = require('../controllers/foodventenyController');
 
 const router = express.Router();
 
-router.post(
-  '/login',
+router.post('/login',
   passport.authenticate('local', {
+    failureRedirect: '/login',
     failureFlash: false,
   }),
   (req, res) => {
-    if (req.user.role === 'admin') {
-      res.redirect('/adminDashboard');
-    } else {
-      res.redirect('/userDashboard');
-    }
+    res.redirect('/dashboard');
   }
 );
 
@@ -36,8 +32,7 @@ router.put('/status/:id',
   return res.status(200).json('Successfully updated status.');
 });
 
-router.post(
-  '/templates',
+router.post('/templates',
   foodventenyController.createApplicationTemplate,
   (req, res) => {
     
@@ -45,20 +40,12 @@ router.post(
   }
 );
 
-// router.get('/createApp', foodventenyController.getVendorTypes, (req, res) => {
-//   const vendorTypes = res.locals.vendorTypesList;
-//   res.render('submitApp', { vendorTypes });
-// });
-
-router.post(
-  '/submission',
+router.post('/submission',
   foodventenyController.submitApplication,
   (req, res) => {
 
     res.redirect('/userDashboard');
   }
 );
-
-
 
 module.exports = router;
