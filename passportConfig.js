@@ -17,6 +17,7 @@ function init(passport) {
       return done(null, false, { message: 'user not found' });
     }
   };
+  
   passport.use(
     new LocalStrategy(
       {

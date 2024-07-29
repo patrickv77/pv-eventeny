@@ -9,40 +9,108 @@
     />
     <style>
       .descriptionBox {
-        height: 600px;
-        font-size: 14pt;
+        height: 40vh;
+        font-size: 12pt;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        display: flex;
+      }
+      .sidebar {
+        height: 100vh;
+        width: 250px;
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        box-sizing: border-box;
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .sidebar a {
+        color: white;
+        text-decoration: none;
+        display: block;
+        padding: 10px 0;
+      }
+      .sidebar a:hover {
+        background-color: #575757;
+      }
+      .main-content {
+        margin-left: 250px;
+        padding: 20px;
+        width: 100%;
+      }
+      .table-container {
+        max-height: 80vh; /* 80% of the viewport height */
+        overflow-y: auto;
+        border: 1px solid #ddd;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      tr:hover {
+        background-color: #f1f1f1;
       }
     </style>
     <title>Document</title>
   </head>
   <body>
+    <div class="sidebar">
+      <div>
+        <h2>Menu</h2>
+        <a href="/api/createApp">Submit New Application</a>
+        <a href="/userDashboard">Submitted Applications</a>
+      </div>
+      <a href="/api/logout">Logout</a>
+    </div>
+
+    <div class="main-content">
     <h1>Submit an application for the great event known as foodventeny</h1>
 
-    <form action="/api/submission" method="POST">
-      <div>
+      <form action="/api/submission" method="POST">
         <div>
-          <label for="vendorType">Vendor Type:</label>
-            <select id="vendorType" name="vendorType">
-              <% vendorTypes.forEach(type => { %>
-                <option value="<%= type %>"><%= type.replace('_', ' ') %></option>
-              <% }); %>
+          <div>
+            <label for="vendorType">Vendor Type:</label>
+              <select id="vendorType" name="vendorType">
+                <% vendorTypes.forEach(type => { %>
+                  <option value="<%= type %>"><%= type.replace('_', ' ') %></option>
+                <% }); %>
+              </select>
             </select>
-          </select>
+          </div>
         </div>
-      </div>
-      <div>
-        <input
-          type="text"
-          class="descriptionBox"
-          id="description"
-          name="description"
-          placeholder="Enter a description"
-          required
-        />
-      </div>
-      <div>
-        <input type="submit" value="Submit" />
-      </div>
-    </form>
+        <div>
+          <input
+            type="text"
+            class="descriptionBox"
+            id="description"
+            name="description"
+            placeholder="Enter a description"
+            required
+          />
+        </div>
+        <div>
+          <input type="submit" value="Submit" />
+        </div>
+      </form>
+
+    </div>
   </body>
 </html>

@@ -3,6 +3,7 @@ const session = require('express-session');
 const passport = require('passport');
 
 const apiRouter = require('./routes/api');
+const viewsRouter = require('./routes/views');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -20,31 +21,7 @@ app.use(passport.session());
 
 // routes
 app.use('/api', apiRouter);
-
-// ejs renders
-app.get('/', (req, res) => {
-  res.render('index');
-});
-
-app.get('/register', (req, res) => {
-  res.render('register');
-});
-
-app.get('/login', (req, res) => {
-  res.render('login');
-});
-
-app.get('/adminDashboard', (req, res) => {
-  res.render('adminDashboard');
-});
-
-app.get('/userDashboard', (req, res) => {
-  res.render('userDashboard');
-});
-
-app.get('/template', (req, res) => {
-  res.render('template');
-})
+app.use('/', viewsRouter);
 
 // Catch-all route handler for any requests to an unknown route
 app.use((req, res) => res.sendStatus(404));

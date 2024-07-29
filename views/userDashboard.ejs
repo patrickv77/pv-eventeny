@@ -89,39 +89,45 @@
     <div class="sidebar">
       <div>
         <h2>Menu</h2>
-        <a href="/api/createApp">Create new application</a>
-        <a href="javascript:window.history.back()">Submitted Applications</a>
+        <a href="/api/createApp">Submit New Application</a>
+        <a href="/userDashboard">Submitted Applications</a>
       </div>
-      <a href="/login">Logout</a>
+      <a href="/api/logout">Logout</a>
     </div>
 
     <div class="main-content">
       <h1>Applications</h1>
 
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>app_id</th>
-              <th>user</th>
-              <th>vendor_space</th>
-              <th>description</th>
-              <th>status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% applicationList.forEach(app => { %>
-            <tr>
-              <td><%= app.id %></td>
-              <td><%= app.user_id %></td>
-              <td><%= app.vendor_space %></td>
-              <td><%= app.description %></td>
-              <td><%= app.status %></td>
-            </tr>
-            <% }); %>
-          </tbody>
-        </table>
+      <% if(typeof applicationList != 'undefined') { %>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>app_id</th>
+                <th>user</th>
+                <th>vendor_space</th>
+                <th>description</th>
+                <th>status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% applicationList.forEach(app => { %>
+              <tr>
+                <td><%= app.id %></td>
+                <td><%= app.user_id %></td>
+                <td><%= app.vendor_space %></td>
+                <td><%= app.description %></td>
+                <td>
+                  <span class="status-circle <%= app.status %>"></span>
+                  <span><%= app.status %></span>
+                </td>  
+                
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+      <%}%>
   </body>
 </html>

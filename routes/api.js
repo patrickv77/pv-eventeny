@@ -13,40 +13,35 @@ router.post(
   passport.authenticate('local', {
     failureFlash: false,
   }),
-  foodventenyController.verifyUser,
-  foodventenyController.getApps,
   (req, res) => {
-    const applicationList = res.locals.appArray;
-
-    if (res.locals.userRole === 'admin') {
-      res.render('adminDashboard', { applicationList });
+    if (req.user.role === 'admin') {
+      res.redirect('/adminDashboard');
     } else {
-      res.render('userDashboard', { applicationList });
+      res.redirect('/userDashboard');
     }
   }
 );
 
-router.post('/register', foodventenyController.addUser, (req, res) => {
-  return res.status(200).json('Registration successful.');
+router.post('/register', 
+  foodventenyController.addUser, 
+  (req, res) => {
+
+    res.redirect('/login');
 });
 
-router.put('/status/:id', foodventenyController.updateAppStatus, (req, res) => {
-  return res.status(200).json('Status update successful.');
-});
+router.put('/status/:id', 
+  foodventenyController.updateAppStatus, 
+  (req, res) => {
 
-router.get('/templates', foodventenyController.getAppTemplates, (req, res) => {
-  const appTemplatesList = res.locals.appTemplatesList;
-
-  res.render('adminAppTemplates', { appTemplatesList });
+  return res.status(200).json('Successfully updated status.');
 });
 
 router.post(
   '/templates',
   foodventenyController.createApplicationTemplate,
-  foodventenyController.getAppTemplates,
   (req, res) => {
-    const appTemplatesList = res.locals.appTemplatesList;
-    res.render('adminAppTemplates', { appTemplatesList });
+    
+    res.redirect('/adminAppTemplates');
   }
 );
 
@@ -58,9 +53,18 @@ router.get('/createApp', foodventenyController.getVendorTypes, (req, res) => {
 router.post(
   '/submission',
   foodventenyController.submitApplication,
+  foodventenyController.getApps,
   (req, res) => {
-    res.render();
+    const applicationList = res.locals.appArray;
+
+    res.render('userDashboard', { applicationList });
   }
 );
+
+router.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    res.redirect('/login');
+  });
+});
 
 module.exports = router;

@@ -88,15 +88,16 @@
     <div class="sidebar">
       <div>
         <h2>Menu</h2>
-        <a href="/api/templates">Application Templates</a>
+        <a href="/adminAppTemplates">Application Templates</a>
         <a href="#" onclick="window.location.reload(true);">Submitted Applications</a>
       </div>
-      <a href="/login">Logout</a>
+      <a href="/api/logout">Logout</a>
     </div>
 
     <div class="main-content">
       <h2>Applications</h2>
 
+      <% if(typeof applicationList != 'undefined') { %>
       <div class="table-container">
         <table>
           <thead>
@@ -116,19 +117,20 @@
               <td><%= app.vendor_space %></td>
               <td><%= app.description %></td>
               <td>
+                <span class="status-circle <%= app.status.replace(' ', '-') %>"></span>
                 <select class="status-dropdown" data-app-id="<%= app.id %>">
                   <option value="approved" <%= app.status === 'approved' ? 'selected' : '' %>>Approved</option>
                   <option value="waitlisted" <%= app.status === 'waitlisted' ? 'selected' : '' %>>Waitlisted</option>
                   <option value="rejected" <%= app.status === 'rejected' ? 'selected' : '' %>>Rejected</option>
                   <option value="awaiting_action" <%= app.status === 'awaiting_action' ? 'selected' : '' %>>Awaiting action</option>
                 </select>
-                <span class="status-circle <%= app.status.replace(' ', '-') %>"></span>
               </td>
             </tr>
             <% }); %>
           </tbody>
         </table>
       </div>
+      <% } %>
     </div>
 
     <script>
@@ -144,12 +146,11 @@
             },
             body: JSON.stringify({ status: newStatus }),
           })
-            .then((response) => response.json())
-            .then((data) => {
-              if (data.success) {
-                alert('Status updated successfully');
-              } else {
-                alert('Error updating status');
+            .then((response) => {
+              if(response.status === 200) {
+                dropdown.previousElementSibling.className = `status-circle ${newStatus}`;
+              }else{
+                alert('There was an error updating status.')
               }
             })
             .catch((error) => console.error('Error:', error));
