@@ -44,8 +44,12 @@ router.post('/submission',
   foodventenyController.submitApplication,
   (req, res) => {
 
-    res.redirect('/userDashboard');
+    res.redirect('/dashboard');
   }
 );
 
 module.exports = router;
+
+// TODO:
+// delete route for application templates
+// delete route for user application submissions
