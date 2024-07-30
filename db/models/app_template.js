@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   app_template.init(
     {
+      // unique 
       vendor_type: {
         type: DataTypes.STRING,
         allowNull: false,
