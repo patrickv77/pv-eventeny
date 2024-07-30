@@ -59,6 +59,10 @@ module.exports = {
       [
         {
           user_id: '2',
+          first_name: 'john',
+          last_name: 'doe',
+          phone_number: '1234567890',
+          email: 'johndoe123@email.com',
           vendor_space: 2,
           description: 'gotta table',
           createdAt: new Date(),
@@ -67,6 +71,10 @@ module.exports = {
         },
         {
           user_id: '2',
+          first_name: 'john',
+          last_name: 'doe',
+          phone_number: '1234567890',
+          email: 'johndoe123@email.com',
           vendor_space: 1,
           description: 'gotta vend',
           createdAt: new Date(),
@@ -75,6 +83,10 @@ module.exports = {
         },
         {
           user_id: '3',
+          first_name: 'johnny',
+          last_name: 'do',
+          phone_number: '1234567891',
+          email: 'johnydo123@email.com',
           vendor_space: 2,
           description: 'gotta spread the word',
           createdAt: new Date(),
@@ -83,6 +95,10 @@ module.exports = {
         },
         {
           user_id: '3',
+          first_name: 'johnny',
+          last_name: 'do',
+          phone_number: '1234567891',
+          email: 'johnnydo123@email.com',
           vendor_space: 1,
           description: 'gotta sell that food',
           createdAt: new Date(),
@@ -91,6 +107,10 @@ module.exports = {
         },
         {
           user_id: '3',
+          first_name: 'jon',
+          last_name: 'poe',
+          phone_number: '1234567892',
+          email: 'jonpoe123@email.com',
           vendor_space: 1,
           description: 'gotta make that money',
           createdAt: new Date(),
@@ -99,6 +119,10 @@ module.exports = {
         },
         {
           user_id: '3',
+          first_name: 'john',
+          last_name: 'doe',
+          phone_number: '1234567892',
+          email: 'johndoe123@email.com',
           vendor_space: 1,
           description: 'gotta chase that bag',
           createdAt: new Date(),

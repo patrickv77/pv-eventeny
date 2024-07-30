@@ -1,5 +1,7 @@
 'use strict';
 const { Model } = require('sequelize');
+const phoneValidationRegex = /\d{10}/ 
+
 module.exports = (sequelize, DataTypes) => {
   class application extends Model {
     /**
@@ -24,6 +26,37 @@ module.exports = (sequelize, DataTypes) => {
             tableName: 'user',
           },
           key: 'id',
+        },
+      },
+      first_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+      },
+      last_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+        },
+      },
+      phone_number: {
+        type: DataTypes.STRING(10),
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+          validator: function(num) {
+            return phoneValidationRegex.test(num); 
+          },
+        },
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
         },
       },
       vendor_space: {
