@@ -109,7 +109,7 @@
           <thead>
             <tr>
               <th>app_id</th>
-              <th>user</th>
+              <% if(dash.role === 'admin') { %> <th>applicant</th> <% } %>
               <th>vendor_space</th>
               <th>description</th>
               <th>status</th>
@@ -119,7 +119,7 @@
             <% dash.applicationList.forEach(app => { %>
             <tr>
               <td><%= app.id %></td>
-              <td><%= app.user_id %></td>
+              <% if(dash.role === 'admin') { %> <td><%= app.user_id %></td> <% } %>
               <td><%= app.vendor_space %></td>
               <td><%= app.description %></td>
               <td>
