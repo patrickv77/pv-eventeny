@@ -13,7 +13,7 @@ async function hashPass(unhashedPassword) {
 
 // functions to be exported
 const foodventenyController = {};
-
+  
 foodventenyController.addUser = async (req, res, next) => {
   const { username, password, password2, role } = req.body;
 
@@ -151,3 +151,12 @@ foodventenyController.submitApplication = async (req, res, next) => {
 };
 
 module.exports = foodventenyController;
+
+/*
+
+  split controller and routes to reflect responsibility
+  ie app_templateController, application controller, etc.
+
+  look into RSCs (services for controllers)
+
+*/
