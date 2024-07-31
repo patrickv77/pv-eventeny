@@ -1,8 +1,8 @@
 const express = require('express');
 const passport = require('passport');
 
-const initializePassport = require('../passportConfig');
-initializePassport(passport);
+const init = require('../passportConfig');
+init(passport);
 
 const foodventenyController = require('../controllers/foodventenyController');
 
