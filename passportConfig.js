@@ -35,7 +35,13 @@ function init(passport) {
   passport.deserializeUser( async (id, done) => {
     const userInfo = await user.findOne({ where: { id: id } });
 
-    return done(null, userInfo);
+    const storedUserInfo = {
+      id: userInfo.id,
+      username: userInfo.username,
+      role: userInfo.role,
+    }
+
+    return done(null, storedUserInfo);
   });
 }
 
