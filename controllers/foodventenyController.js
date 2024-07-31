@@ -1,5 +1,4 @@
-const e = require('express');
-const { db, user, application, app_template } = require('../db/models');
+const { user, application, app_template } = require('../db/models');
 const bcrypt = require('bcryptjs');
 
 let salt = bcrypt.genSaltSync(10);
@@ -13,7 +12,8 @@ async function hashPass(unhashedPassword) {
 
 // functions to be exported
 const foodventenyController = {};
-  
+
+// USER CONTROLLER
 foodventenyController.addUser = async (req, res, next) => {
   const { username, password, password2, role } = req.body;
 
@@ -48,6 +48,9 @@ foodventenyController.addUser = async (req, res, next) => {
   }
 };
 
+
+
+// APPLICATION CONTROLLER
 foodventenyController.getApps = async (req, res, next) => {
   try {
     const dbApps = await application.findAll();
@@ -94,6 +97,33 @@ foodventenyController.updateAppStatus = async (req, res, next) => {
   }
 };
 
+foodventenyController.submitApplication = async (req, res, next) => {
+  const { vendorType, first_name, last_name, phone_number, email, description } = req.body;
+
+  try {
+    const vendor = await app_template.findOne({
+      where: { vendor_type: vendorType },
+    });
+    await application.create({
+      user_id: req.user.id,
+      vendor_space: vendor.id,
+      first_name: first_name,
+      last_name: last_name,
+      phone_number: phone_number,
+      email: email,
+      description: description,
+      status: 'awaiting_action',
+    });
+
+    return next();
+  } catch (error) {
+    return next(error);
+  }
+};
+
+
+
+// APP_TEMPLATES CONTROLLER
 foodventenyController.getAppTemplates = async (req, res, next) => {
   try {
     const appsList = await app_template.findAll();
@@ -123,26 +153,6 @@ foodventenyController.getVendorTypes = async (req, res, next) => {
     res.locals.vendorTypesList = await app_template
       .findAll({ attributes: ['vendor_type'] })
       .then((apps) => apps.map((app) => app.vendor_type));
-
-    return next();
-  } catch (error) {
-    return next(error);
-  }
-};
-
-foodventenyController.submitApplication = async (req, res, next) => {
-  const { vendorType, description } = req.body;
-
-  try {
-    const vendor = await app_template.findOne({
-      where: { vendor_type: vendorType },
-    });
-    await application.create({
-      user_id: req.user.id,
-      vendor_space: vendor.id,
-      description: description,
-      status: 'awaiting_action',
-    });
 
     return next();
   } catch (error) {
