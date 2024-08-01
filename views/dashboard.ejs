@@ -109,21 +109,31 @@
         <table id="user-applications">
           <thead>
             <tr>
-              <th>app_id</th>
+              <th>Application ID</th>
               <% if(dash.role === 'admin') { %> 
-                <th>applicant</th> 
+                <th>Applicant Username</th> 
+                <th>Applicant First Name</th> 
+                <th>Applicant Last Name</th> 
+                <th>Applicant Phone Number</th> 
+                <th>Applicant Email</th> 
               <% } %>
-              <th>vendor_type_id</th>
-              <th>description</th>
-              <th>status</th>
+              <th>Vendor Space</th>
+              <th>Description</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
             <% dash.applicationList.forEach(app => { %>
             <tr>
               <td><%= app.id %></td>
-              <% if(dash.role === 'admin') { %> <td><%= app.user_id %></td> <% } %>
-              <td><%= app.vendor_type_id %></td>
+              <% if(dash.role === 'admin') { %> 
+                <td><%= app.user.username %></td> 
+                <td><%= app.first_name %></td>
+                <td><%= app.last_name %></td>
+                <td><%= app.phone_number %></td>
+                <td><%= app.email %></td>
+              <% } %>
+              <td><%= app.application_template.vendor_type %></td>
               <td><%= app.description %></td>
               <td>
                 <span class="status-circle <%= app.status %>"></span>
@@ -164,7 +174,7 @@
           const appId = this.getAttribute('data-app-id');
           const newStatus = this.value;
 
-          fetch(`/api/status/${appId}`, {
+          fetch(`/apps/status/${appId}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
