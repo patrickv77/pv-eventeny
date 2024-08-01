@@ -2,9 +2,10 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 
-const apiRouter = require('./routes/api');
-const viewsRouter = require('./routes/views');
-const userRouter = require('./routes/userRouter');
+const apiRouter = require('./routes/apiRouter')
+const viewsRouter = require('./routes/viewsRouter')
+const userRouter = require('./routes/userRouter')
+const applicationRouter = require('./routes/applicationRouter')
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -34,8 +35,8 @@ app.post(
     failureFlash: false,
   }),
   (req, res) => {
-    console.log('authenticado bruv');
-    res.redirect('/dashboard');
+    console.log('User authentication complete')
+    res.redirect('/apps');
   }
 );
 
@@ -84,6 +85,7 @@ app.get('/test', async (req, res) => {
 */
 
 // Routes
+app.use('/apps', applicationRouter);
 app.use('/user', userRouter);
 app.use('/api', apiRouter);
 app.use('/', viewsRouter);
