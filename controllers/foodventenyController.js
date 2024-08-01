@@ -1,4 +1,4 @@
-const { user, application, app_template } = require('../db/models');
+const { user, application, application_template } = require('../db/models');
 const bcrypt = require('bcryptjs');
 
 let salt = bcrypt.genSaltSync(10);
@@ -48,8 +48,6 @@ foodventenyController.addUser = async (req, res, next) => {
   }
 };
 
-
-
 // APPLICATION CONTROLLER
 foodventenyController.getApps = async (req, res, next) => {
   try {
@@ -57,12 +55,12 @@ foodventenyController.getApps = async (req, res, next) => {
 
     for (app of dbApps) {
       const tempUser = await user.findOne({ where: { id: app.user_id } });
-      const vendor = await app_template.findOne({
-        where: { id: app.vendor_space },
+      const vendor = await application_template.findOne({
+        where: { id: app.vendor_type_id },
       });
 
       app.user_id = tempUser.username;
-      app.vendor_space = vendor.vendor_type;
+      app.vendor_type_id = vendor.vendor_type;
     }
 
     if (req.user.role === 'admin') {
@@ -98,15 +96,22 @@ foodventenyController.updateAppStatus = async (req, res, next) => {
 };
 
 foodventenyController.submitApplication = async (req, res, next) => {
-  const { vendorType, first_name, last_name, phone_number, email, description } = req.body;
+  const {
+    vendorType,
+    first_name,
+    last_name,
+    phone_number,
+    email,
+    description,
+  } = req.body;
 
   try {
-    const vendor = await app_template.findOne({
+    const vendor = await application_template.findOne({
       where: { vendor_type: vendorType },
     });
     await application.create({
       user_id: req.user.id,
-      vendor_space: vendor.id,
+      vendor_type_id: vendor.id,
       first_name: first_name,
       last_name: last_name,
       phone_number: phone_number,
@@ -121,12 +126,10 @@ foodventenyController.submitApplication = async (req, res, next) => {
   }
 };
 
-
-
-// APP_TEMPLATES CONTROLLER
+// application_templateS CONTROLLER
 foodventenyController.getAppTemplates = async (req, res, next) => {
   try {
-    const appsList = await app_template.findAll();
+    const appsList = await application_template.findAll();
 
     res.locals.appTemplatesList = appsList;
 
@@ -140,7 +143,7 @@ foodventenyController.createApplicationTemplate = async (req, res, next) => {
   const { vendor_type } = req.body;
 
   try {
-    await app_template.create({ vendor_type: vendor_type });
+    await application_template.create({ vendor_type: vendor_type });
 
     return next();
   } catch (error) {
@@ -150,7 +153,7 @@ foodventenyController.createApplicationTemplate = async (req, res, next) => {
 
 foodventenyController.getVendorTypes = async (req, res, next) => {
   try {
-    res.locals.vendorTypesList = await app_template
+    res.locals.vendorTypesList = await application_template
       .findAll({ attributes: ['vendor_type'] })
       .then((apps) => apps.map((app) => app.vendor_type));
 
@@ -165,7 +168,7 @@ module.exports = foodventenyController;
 /*
 
   split controller and routes to reflect responsibility
-  ie app_templateController, application controller, etc.
+  ie application_templateController, application controller, etc.
 
   look into RSCs (services for controllers)
 

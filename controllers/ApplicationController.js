@@ -1,8 +1,8 @@
 const bcrypt = require('bcryptjs');
 
-class UserController {
-  constructor(UserService) {
-    this.UserService = UserService;
+class ApplicationController {
+  constructor(ApplicationService) {
+    this.ApplicationService = ApplicationService;
   }
 
   addUser = async (req, res, next) => {
@@ -16,7 +16,9 @@ class UserController {
       if (registrationErrors.length > 0) {
         res.render('register', { registrationErrors });
       } else {
+        // const encryptedPassword = this.AuthorizationService(password);
         const encryptedPassword = await bcrypt.hash(password, 10);
+
 
         const newUser = await this.UserService.createUser( username, encryptedPassword, role );
   
@@ -26,6 +28,7 @@ class UserController {
         return res.status(500).json({ message: error.message });
     }
   }
+
 }
 
-module.exports = UserController;
+module.exports = ApplicationController;
