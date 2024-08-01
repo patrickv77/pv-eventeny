@@ -1,22 +1,8 @@
 const express = require('express');
-const passport = require('passport');
-
-const init = require('../passportConfig');
-init(passport);
 
 const foodventenyController = require('../controllers/foodventenyController');
 
 const router = express.Router();
-
-router.post('/login',
-  passport.authenticate('local', {
-    failureRedirect: '/login',
-    failureFlash: false,
-  }),
-  (req, res) => {
-    res.redirect('/dashboard');
-  }
-);
 
 router.post('/register', 
   foodventenyController.addUser, 

@@ -113,7 +113,7 @@
               <% if(dash.role === 'admin') { %> 
                 <th>applicant</th> 
               <% } %>
-              <th>vendor_space</th>
+              <th>vendor_type_id</th>
               <th>description</th>
               <th>status</th>
             </tr>
@@ -123,7 +123,7 @@
             <tr>
               <td><%= app.id %></td>
               <% if(dash.role === 'admin') { %> <td><%= app.user_id %></td> <% } %>
-              <td><%= app.vendor_space %></td>
+              <td><%= app.vendor_type_id %></td>
               <td><%= app.description %></td>
               <td>
                 <span class="status-circle <%= app.status %>"></span>
