@@ -1,8 +1,8 @@
 const LocalStrategy = require('passport-local').Strategy;
-const { db, user, application } = require('./db/models/');
+const { user } = require('./db/models/');
 const bcrypt = require('bcryptjs');
 
-function init(passport) {
+function initializePassport(passport) {
   const authenticateUser = async (username, password, done) => {
     const foundUser = await user.findOne({ where: { username: username } });
     
@@ -45,4 +45,4 @@ function init(passport) {
   });
 }
 
-module.exports = init;
+module.exports = initializePassport;
