@@ -1,6 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
-const phoneValidationRegex = /\d{10}/ 
+const phoneValidationRegex = /\d{10}/;
 
 module.exports = (sequelize, DataTypes) => {
   class application extends Model {
@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      application.belongsTo(models.user, { foreignKey: 'user_id' });
+      application.belongsTo(models.application_template, {
+        foreignKey: 'vendor_type_id',
+      });
     }
   }
   application.init(
@@ -47,8 +51,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           notEmpty: true,
-          validator: function(num) {
-            return phoneValidationRegex.test(num); 
+          validator: function (num) {
+            return phoneValidationRegex.test(num);
           },
         },
       },
@@ -59,7 +63,7 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: true,
         },
       },
-      vendor_space: {
+      vendor_type_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
@@ -67,7 +71,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         references: {
           model: {
-            tableName: 'app_template',
+            tableName: 'application_template',
           },
           key: 'id',
         },

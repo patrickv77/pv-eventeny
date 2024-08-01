@@ -38,7 +38,7 @@ module.exports = {
     );
 
     await queryInterface.bulkInsert(
-      'app_template',
+      'application_template',
       [
         {
           vendor_type: 'food_truck',
@@ -63,7 +63,7 @@ module.exports = {
           last_name: 'doe',
           phone_number: '1234567890',
           email: 'johndoe123@email.com',
-          vendor_space: 2,
+          vendor_type_id: 2,
           description: 'gotta table',
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -75,7 +75,7 @@ module.exports = {
           last_name: 'doe',
           phone_number: '1234567890',
           email: 'johndoe123@email.com',
-          vendor_space: 1,
+          vendor_type_id: 1,
           description: 'gotta vend',
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -87,7 +87,7 @@ module.exports = {
           last_name: 'do',
           phone_number: '1234567891',
           email: 'johnydo123@email.com',
-          vendor_space: 2,
+          vendor_type_id: 2,
           description: 'gotta spread the word',
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -99,7 +99,7 @@ module.exports = {
           last_name: 'do',
           phone_number: '1234567891',
           email: 'johnnydo123@email.com',
-          vendor_space: 1,
+          vendor_type_id: 1,
           description: 'gotta sell that food',
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -111,7 +111,7 @@ module.exports = {
           last_name: 'poe',
           phone_number: '1234567892',
           email: 'jonpoe123@email.com',
-          vendor_space: 1,
+          vendor_type_id: 1,
           description: 'gotta make that money',
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -123,7 +123,7 @@ module.exports = {
           last_name: 'doe',
           phone_number: '1234567892',
           email: 'johndoe123@email.com',
-          vendor_space: 1,
+          vendor_type_id: 1,
           description: 'gotta chase that bag',
           createdAt: new Date(),
           updatedAt: new Date(),
