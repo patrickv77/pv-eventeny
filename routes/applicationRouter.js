@@ -5,6 +5,13 @@ const { applicationController } = createDIContainer;
 
 const router = express.Router();
 
-router.post('/register', applicationController);
+router.get('/', applicationController.getApplications);
+
+router.put('/status/:id', applicationController.updateApplicationStatus);
+
+router.post('/', 
+  applicationController.submitUserApplication,
+  applicationController.getApplications
+);
 
 module.exports = router;

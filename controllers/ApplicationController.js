@@ -5,30 +5,67 @@ class ApplicationController {
     this.ApplicationService = ApplicationService;
   }
 
-  addUser = async (req, res, next) => {
-    const { username, password, password2, role } = req.body;
+  getApplications = async (req, res, next) => {
+    const { id, role } = req.user;
 
     try {
-      const foundUser = await this.UserService.findUser(username);
+      const dash = {};
+      dash.role = role;
 
-      const registrationErrors = this.UserService.setRegistrationErrors(foundUser, username, password, password2, role);
-
-      if (registrationErrors.length > 0) {
-        res.render('register', { registrationErrors });
+      if (role === 'admin') {
+        const apps = await this.ApplicationService.getAllApplications();
+        dash.applicationList = apps;
       } else {
-        // const encryptedPassword = this.AuthorizationService(password);
-        const encryptedPassword = await bcrypt.hash(password, 10);
-
-
-        const newUser = await this.UserService.createUser( username, encryptedPassword, role );
-  
-        return res.status(201).json(newUser);
+        const ownApps = await this.ApplicationService.getOwnApplications(id);
+        dash.applicationList = ownApps;
       }
-    } catch (error) {
-        return res.status(500).json({ message: error.message });
-    }
-  }
 
+      res.status(302).render('dashboard', { dash });
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  updateApplicationStatus = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { status } = req.body;
+
+      await this.ApplicationService.updateStatus(id, status);
+
+      return res.status(200).json('Successfully updated status.');
+    } catch (error) {
+      throw new Error('Error in updateApplicationStatus');
+    }
+  };
+
+  submitUserApplication = async (req, res, next) => {
+    const { id } = req.user;
+    const {
+      vendorType,
+      first_name,
+      last_name,
+      phone_number,
+      email,
+      description,
+    } = req.body;
+
+    try {
+      await this.ApplicationService.createUserApplication(
+        id,
+        vendorType,
+        first_name,
+        last_name,
+        phone_number,
+        email,
+        description
+      );
+
+      return next();
+    } catch (error) {
+      return next(error);
+    }
+  };
 }
 
 module.exports = ApplicationController;
