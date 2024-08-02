@@ -2,25 +2,49 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 
-const apiRouter = require('./routes/api');
-const viewsRouter = require('./routes/views');
+const viewsRouter = require('./routes/viewsRouter');
+const userRouter = require('./routes/userRouter');
+const applicationRouter = require('./routes/applicationRouter');
+const applicationTemplateRouter = require('./routes/applicationTemplateRouter');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Express Middlewares
 app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(session({
-  secret:'foodventeny_secret',
-  resave: false,
-  saveUninitialized: false,
-}))
+app.use(
+  session({
+    secret: 'foodventeny_secret',
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Passport Initialization
+const initializePassport = require('./passportConfig');
+initializePassport(passport);
+
+// Passport Authentication Route
+app.post(
+  '/login',
+  passport.authenticate('local', {
+    failureRedirect: '/login',
+    failureFlash: false,
+  }),
+  (req, res) => {
+    console.log('User authentication complete');
+    res.redirect('/apps');
+  }
+);
+
 // Routes
-app.use('/api', apiRouter);
+app.use('/template', applicationTemplateRouter);
+app.use('/apps', applicationRouter);
+app.use('/user', userRouter);
 app.use('/', viewsRouter);
 
 // Catch-all route handler for any requests to an unknown route

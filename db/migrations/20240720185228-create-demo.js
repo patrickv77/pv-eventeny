@@ -34,7 +34,7 @@ module.exports = {
           { transaction: t }
         ),
         queryInterface.createTable(
-          'app_template',
+          'application_template',
           {
             id: {
               allowNull: false,
@@ -74,11 +74,27 @@ module.exports = {
                 key: 'id',
               },
             },
-            vendor_space: {
+            first_name: {
+              type: Sequelize.STRING,
+              allowNull: false,
+            },
+            last_name: {
+              type: Sequelize.STRING,
+              allowNull: false,
+            },
+            phone_number: {
+              type: Sequelize.STRING,
+              allowNull: false,
+            },
+            email: {
+              type: Sequelize.STRING,
+              allowNull: false,
+            },
+            vendor_type_id: {
               type: Sequelize.INTEGER,
               references: {
                 model: {
-                  tableName: 'app_template',
+                  tableName: 'application_template',
                 },
                 key: 'id',
               },

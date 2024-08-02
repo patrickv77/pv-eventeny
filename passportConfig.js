@@ -1,8 +1,8 @@
 const LocalStrategy = require('passport-local').Strategy;
-const { db, user, application } = require('./db/models/');
+const { user } = require('./db/models/');
 const bcrypt = require('bcryptjs');
 
-function init(passport) {
+function initializePassport(passport) {
   const authenticateUser = async (username, password, done) => {
     const foundUser = await user.findOne({ where: { username: username } });
     
@@ -35,8 +35,14 @@ function init(passport) {
   passport.deserializeUser( async (id, done) => {
     const userInfo = await user.findOne({ where: { id: id } });
 
-    return done(null, userInfo);
+    const storedUserInfo = {
+      id: userInfo.id,
+      username: userInfo.username,
+      role: userInfo.role,
+    }
+
+    return done(null, storedUserInfo);
   });
 }
 
-module.exports = init;
+module.exports = initializePassport;
