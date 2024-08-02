@@ -26,7 +26,7 @@ class ApplicationController {
     }
   };
 
-  updateApplicationStatus = async (req, res) => {
+  updateApplicationStatus = async (req, res, next) => {
     try {
       const { id } = req.params;
       const { status } = req.body;
@@ -35,7 +35,7 @@ class ApplicationController {
 
       return res.status(200).json('Successfully updated status.');
     } catch (error) {
-      throw new Error('Error in updateApplicationStatus');
+      return next(error);
     }
   };
 

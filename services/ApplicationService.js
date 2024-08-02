@@ -1,5 +1,5 @@
 class ApplicationService {
-  constructor(application, user, application_template){
+  constructor(application, user, application_template) {
     this.application = application;
     this.user = user;
     this.application_template = application_template;
@@ -29,13 +29,13 @@ class ApplicationService {
           'status',
         ],
       });
-      
+
       // console.log(apps);
       return apps;
     } catch (error) {
       throw new Error('Error in getAllApplications');
     }
-  }
+  };
 
   getOwnApplications = async (id) => {
     try {
@@ -63,31 +63,40 @@ class ApplicationService {
         ],
       });
 
-      console.log(apps[0].user);
-      console.log(apps[0].application_template);
       return apps;
     } catch (error) {
-        throw new Error('Error in getOwnApplications');
+      throw new Error('Error in getOwnApplications');
     }
   };
 
   updateStatus = async (id, status) => {
     try {
-      const updatedApp = await this.application.update({ status: status }, { where: { id: id } });
+      const updatedApp = await this.application.update(
+        { status: status },
+        { where: { id: id } }
+      );
 
       return updatedApp;
     } catch (error) {
       throw new Error('Error updating status');
     }
-    
-  }
+  };
 
-  createUserApplication = async (id, vendorType, firstName, lastName, phoneNumber, email, description) => {
+  createUserApplication = async (
+    id,
+    vendorType,
+    firstName,
+    lastName,
+    phoneNumber,
+    email,
+    description
+  ) => {
     try {
       let app;
 
-      await this.application_template.findOne({ where: { vendor_type: vendorType }, attributes: ['id']})
-        .then( async foundTemplate =>{  
+      await this.application_template
+        .findOne({ where: { vendor_type: vendorType }, attributes: ['id'] })
+        .then(async (foundTemplate) => {
           app = await this.application.create({
             user_id: id,
             vendor_type_id: foundTemplate.id,
@@ -98,14 +107,13 @@ class ApplicationService {
             description: description,
             status: 'awaiting_action',
           });
-        })
-    
+        });
+
       return app;
     } catch (error) {
-        throw new Error('error creatin');
+      throw new Error('error creatin');
     }
-  }
+  };
 }
-
 
 module.exports = ApplicationService;

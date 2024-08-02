@@ -1,5 +1,3 @@
-const bcrypt = require('bcryptjs');
-
 class UserController {
   constructor(UserService) {
     this.UserService = UserService;
@@ -14,16 +12,29 @@ class UserController {
       const registrationErrors = this.UserService.setRegistrationErrors(foundUser, username, password, password2, role);
 
       if (registrationErrors.length > 0) {
+        // add backend error here
         res.render('register', { registrationErrors });
       } else {
-        const encryptedPassword = await bcrypt.hash(password, 10);
-
-        const newUser = await this.UserService.createUser( username, encryptedPassword, role );
+        const newUser = await this.UserService.createUser( username, password, role );
   
         return res.status(201).json(newUser);
       }
     } catch (error) {
-        return res.status(500).json({ message: error.message });
+        return next(error);
+    }
+  }
+
+  logoutUser = (req, res, next) => {
+    try {
+      req.session.destroy((error) => {
+        if(!error) {
+          return res.redirect('/login');
+        }
+        
+        return next(error);
+      });
+    } catch (error) {
+      return next(error);
     }
   }
 }

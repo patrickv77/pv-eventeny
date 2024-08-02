@@ -9,9 +9,6 @@ router.get('/', applicationController.getApplications);
 
 router.put('/status/:id', applicationController.updateApplicationStatus);
 
-router.post('/', 
-  applicationController.submitUserApplication,
-  applicationController.getApplications
-);
+router.post('/', applicationController.submitUserApplication, applicationController.getApplications);
 
 module.exports = router;
