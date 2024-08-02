@@ -4,7 +4,7 @@ const UserController = require('./controllers/UserController');
 const ApplicationService = require('./services/ApplicationService');
 const ApplicationController = require('./controllers/ApplicationController');
 const ApplicationTemplateService = require('./services/ApplicationTemplateService');
-const ApplicationTemplateController = require('./services/ApplicationTemplateController');
+const ApplicationTemplateController = require('./controllers/ApplicationTemplateController');
 
 createDIContainer = {};
 
