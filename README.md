@@ -13,3 +13,11 @@ First, ensure that Docker is installed [Docker installation documentation](https
 docker-compose up
 ```
 Then, simply open up your web browser and move to `localhost:3000/`
+
+## Features
+### :zap:Quick and Secure
+Foodventeny leverages technologies such as EJS and Passport.js to serve up web pages quickly and securely. 
+### :lock:Local Database
+Foodventeny has a built-in local database created with Postgres. We also use Sequelize, a popular Node.js-based ORM library for security and speed of development.
+### :ship:Containers
+Foodventeny is built using two Docker containers, one for the database and one for the application itself. Containerizing the app ensures compatibility across all machines, greatly simplifying the installation experience.
