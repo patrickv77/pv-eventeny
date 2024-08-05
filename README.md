@@ -12,7 +12,7 @@ Foodventeny is a lightweight web application built to help you succeed in planni
 ## Installation
 Ensure that Docker is installed - [Docker](https://docs.docker.com/engine/install/). 
 
-Clone this repository and then run the following command in the terminal:
+Clone this repository and run the following command in the terminal:
 ```
 docker-compose up
 ```
