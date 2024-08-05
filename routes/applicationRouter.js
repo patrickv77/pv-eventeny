@@ -1,7 +1,6 @@
 const express = require('express');
-const createDIContainer = require('../diContainer');
-
-const { applicationController } = createDIContainer;
+const ApplicationController = require('../controllers/ApplicationController');
+const applicationController = new ApplicationController;
 
 const router = express.Router();
 

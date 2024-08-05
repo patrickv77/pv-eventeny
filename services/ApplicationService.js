@@ -1,20 +1,24 @@
-class ApplicationService {
-  constructor(application, user, application_template) {
-    this.application = application;
-    this.user = user;
-    this.application_template = application_template;
-  }
+const { user, application, application_template } = require('../db/models');
 
+/**
+ * Service class for handling application-related operations.
+ */
+class ApplicationService {
+  /**
+   * Retrieves all applications from the database.
+   * @returns {Promise<Array>} A promise that resolves to an array of application objects.
+   * @throws {Error} If an error occurs while fetching the applications.
+   */
   getAllApplications = async () => {
     try {
-      const apps = await this.application.findAll({
+      const apps = await application.findAll({
         include: [
           {
-            model: this.user,
+            model: user,
             attributes: ['username'],
           },
           {
-            model: this.application_template,
+            model: application_template,
             attributes: ['vendor_type'],
           },
         ],
@@ -30,24 +34,28 @@ class ApplicationService {
         ],
       });
 
-      // console.log(apps);
       return apps;
     } catch (error) {
       throw new Error('Error in getAllApplications');
     }
   };
-
+  /**
+   * Retrieves all applications submitted by the user (non-admin).
+   * @param {number} id The ID of the logged in user.
+   * @returns {Promise<Array>} A promise that resolves to an array of application objects.
+   * @throws {Error} If an error occurs while fetching the applications.
+   */
   getOwnApplications = async (id) => {
     try {
-      const apps = await this.application.findAll({
+      const apps = await application.findAll({
         include: [
           {
-            model: this.user,
+            model: user,
             where: { id: id },
             attributes: ['username'],
           },
           {
-            model: this.application_template,
+            model: application_template,
             attributes: ['vendor_type'],
           },
         ],
@@ -69,11 +77,18 @@ class ApplicationService {
     }
   };
 
-  updateStatus = async (id, status) => {
+  /**
+   * Updates the status of an existing application.
+   * @param {number} appId - The ID of the application to update.
+   * @param {string} status - The new status of the application.
+   * @returns {Promise<number>} A promise that resolves to the number of updated rows.
+   * @throws {Error} If an error occurs while updating the status.
+   */
+  updateStatus = async (appId, status) => {
     try {
-      const updatedApp = await this.application.update(
+      const updatedApp = await application.update(
         { status: status },
-        { where: { id: id } }
+        { where: { id: appId } }
       );
 
       return updatedApp;
@@ -82,6 +97,18 @@ class ApplicationService {
     }
   };
 
+   /**
+   * Creates a new user application.
+   * @param {number} id - The ID of the user.
+   * @param {string} vendorType - The type of vendor.
+   * @param {string} firstName - The first name of the applicant.
+   * @param {string} lastName - The last name of the applicant.
+   * @param {string} phoneNumber - The phone number of the applicant.
+   * @param {string} email - The email address of the applicant.
+   * @param {string} description - The description of the application.
+   * @returns {Promise<Object>} A promise that resolves to the created application object.
+   * @throws {Error} If an error occurs while creating the application.
+   */
   createUserApplication = async (
     id,
     vendorType,
@@ -94,10 +121,10 @@ class ApplicationService {
     try {
       let app;
 
-      await this.application_template
+      await application_template
         .findOne({ where: { vendor_type: vendorType }, attributes: ['id'] })
         .then(async (foundTemplate) => {
-          app = await this.application.create({
+          app = await application.create({
             user_id: id,
             vendor_type_id: foundTemplate.id,
             first_name: firstName,

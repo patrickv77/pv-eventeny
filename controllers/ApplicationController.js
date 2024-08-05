@@ -1,4 +1,6 @@
 const express = require('express')
+const ApplicationService = require('../services/ApplicationService');
+const applicationService = new ApplicationService;
 
 /**
  * Controller for handling application-related operations.
@@ -20,10 +22,10 @@ class ApplicationController {
       dash.role = role;
 
       if (role === 'admin') {
-        const apps = await this.ApplicationService.getAllApplications();
+        const apps = await applicationService.getAllApplications();
         dash.applicationList = apps;
       } else {
-        const ownApps = await this.ApplicationService.getOwnApplications(id);
+        const ownApps = await applicationService.getOwnApplications(id);
         dash.applicationList = ownApps;
       }
 
@@ -44,7 +46,7 @@ class ApplicationController {
       const { id } = req.params;
       const { status } = req.body;
 
-      await this.ApplicationService.updateStatus(id, status);
+      await applicationService.updateStatus(id, status);
 
       return res.status(200).json('Successfully updated status.');
     } catch (error) {
@@ -70,7 +72,7 @@ class ApplicationController {
     } = req.body;
 
     try {
-      await this.ApplicationService.createUserApplication(
+      await applicationService.createUserApplication(
         id,
         vendorType,
         first_name,
