@@ -1,10 +1,17 @@
-const bcrypt = require('bcryptjs');
+const express = require('express')
 
+/**
+ * Controller for handling application-related operations.
+ */
 class ApplicationController {
-  constructor(ApplicationService) {
-    this.ApplicationService = ApplicationService;
-  }
-
+  /**
+   * Retrieves applications for the dashboard view.
+   * If the user is an admin, it retrieves all applications.
+   * Otherwise, it retrieves applications submitted by the user.
+   * @param {express.Request} req 
+   * @param {express.Response} res
+   * @param {express.NextFunction} next
+   */
   getApplications = async (req, res, next) => {
     const { id, role } = req.user;
 
@@ -26,6 +33,12 @@ class ApplicationController {
     }
   };
 
+  /**
+   * Updates the status of an application in the database.
+   * @param {express.Request} req 
+   * @param {express.Response} res
+   * @param {express.NextFunction} next
+   */
   updateApplicationStatus = async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -39,6 +52,12 @@ class ApplicationController {
     }
   };
 
+  /**
+   * Create a new application for the logged in user.
+   * @param {express.Request} req 
+   * @param {express.Response} res
+   * @param {express.NextFunction} next
+   */
   submitUserApplication = async (req, res, next) => {
     const { id } = req.user;
     const {
