@@ -1,11 +1,15 @@
 const { user, application, application_template } = require('../db/models');
 
 /**
- * Service class for handling application-related operations.
+ * @class ApplicationService
+ * @classdesc Service class for handling application-related operations.
  */
 class ApplicationService {
   /**
    * Retrieves all applications from the database.
+   * @function getAllApplications
+   * @memberof ApplicationService
+   * @async
    * @returns {Promise<Array>} A promise that resolves to an array of application objects.
    * @throws {Error} If an error occurs while fetching the applications.
    */
@@ -41,6 +45,9 @@ class ApplicationService {
   };
   /**
    * Retrieves all applications submitted by the user (non-admin).
+   * @function getOwnApplications
+   * @memberof ApplicationService
+   * @async
    * @param {number} id The ID of the logged in user.
    * @returns {Promise<Array>} A promise that resolves to an array of application objects.
    * @throws {Error} If an error occurs while fetching the applications.
@@ -79,6 +86,9 @@ class ApplicationService {
 
   /**
    * Updates the status of an existing application.
+   * @function updateStatus
+   * @memberof ApplicationService
+   * @async
    * @param {number} appId - The ID of the application to update.
    * @param {string} status - The new status of the application.
    * @returns {Promise<number>} A promise that resolves to the number of updated rows.
@@ -99,6 +109,9 @@ class ApplicationService {
 
    /**
    * Creates a new user application.
+   * @function createUserApplication
+   * @memberof ApplicationService
+   * @async
    * @param {number} id - The ID of the user.
    * @param {string} vendorType - The type of vendor.
    * @param {string} firstName - The first name of the applicant.
