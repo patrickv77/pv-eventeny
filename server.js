@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
+const initializePassport = require('./passportConfig');
 
 const viewsRouter = require('./routes/viewsRouter');
 const userRouter = require('./routes/userRouter');
@@ -10,10 +11,20 @@ const applicationTemplateRouter = require('./routes/applicationTemplateRouter');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Express Middlewares
+/**
+ * Sets up the view engine to use EJS templates.
+ */
 app.set('view engine', 'ejs');
+
+/**
+ * Middleware to parse JSON and URL-encoded data.
+ */
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+/**
+ * Session middleware configuration.
+ */
 app.use(
   session({
     secret: 'foodventeny_secret',
@@ -21,14 +32,27 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+/**
+ * Initializes Passport for authentication.
+ */
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Passport Initialization
-const initializePassport = require('./passportConfig');
+/**
+ * Initializes Passport configuration.
+ * @param {Object} passport - The Passport object.
+ */
 initializePassport(passport);
 
-// Passport Authentication Route
+/**
+ * Passport Authentication Route
+ * @name POST /login
+ * @function
+ * @inner
+ * @param {express.Request} req - Express request object.
+ * @param {express.Response} res - Express response object.
+ */
 app.post(
   '/login',
   passport.authenticate('local', {
@@ -41,16 +65,46 @@ app.post(
   }
 );
 
-// Routes
+/**
+ * Application Template Routes
+ * @name /template
+ */
 app.use('/template', applicationTemplateRouter);
+
+/**
+ * Application Routes
+ * @name /apps
+ */
 app.use('/apps', applicationRouter);
+
+/**
+ * User Routes
+ * @name /user
+ */
 app.use('/user', userRouter);
+
+/**
+ * View Routes
+ * @name /
+ */
 app.use('/', viewsRouter);
 
-// Catch-all route handler for any requests to an unknown route
+/**
+ * Catch-all route handler for any requests to an unknown route
+ * @function
+ * @param {express.Request} req - Express request object.
+ * @param {express.Response} res - Express response object.
+ */
 app.use((req, res) => res.sendStatus(404));
 
-// Global error handler
+/**
+ * Global error handler
+ * @function
+ * @param {Object} err - Error object.
+ * @param {express.Request} req - Express request object.
+ * @param {express.Response} res - Express response object.
+ * @param {express.NextFunction} next - Express next middleware function.
+ */
 app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
@@ -65,4 +119,8 @@ app.use((err, req, res, next) => {
   return res.status(errorStatus).send(errorObj.message);
 });
 
+/**
+ * Starts the server and listens on the specified port.
+ * @function
+ */
 app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`));

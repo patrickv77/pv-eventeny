@@ -1,10 +1,23 @@
-const bcrypt = require('bcryptjs');
+const express = require('express')
+const ApplicationService = require('../services/ApplicationService');
+const applicationService = new ApplicationService();
 
+/**
+ * @class ApplicationController
+ * @classdesc Controller class for handling application-related operations.
+ */
 class ApplicationController {
-  constructor(ApplicationService) {
-    this.ApplicationService = ApplicationService;
-  }
-
+  /**
+   * Retrieves applications for the dashboard view.
+   * If the user is an admin, it retrieves all applications.
+   * Otherwise, it retrieves applications submitted by the user.
+   * @function getApplications
+   * @memberof ApplicationController
+   * @async
+   * @param {express.Request} req 
+   * @param {express.Response} res
+   * @param {express.NextFunction} next
+   */
   getApplications = async (req, res, next) => {
     const { id, role } = req.user;
 
@@ -13,10 +26,10 @@ class ApplicationController {
       dash.role = role;
 
       if (role === 'admin') {
-        const apps = await this.ApplicationService.getAllApplications();
+        const apps = await applicationService.getAllApplications();
         dash.applicationList = apps;
       } else {
-        const ownApps = await this.ApplicationService.getOwnApplications(id);
+        const ownApps = await applicationService.getOwnApplications(id);
         dash.applicationList = ownApps;
       }
 
@@ -26,12 +39,21 @@ class ApplicationController {
     }
   };
 
+  /**
+   * Updates the status of an application in the database.
+   * @function updateApplicationStatus
+   * @memberof ApplicationController
+   * @async
+   * @param {express.Request} req 
+   * @param {express.Response} res
+   * @param {express.NextFunction} next
+   */
   updateApplicationStatus = async (req, res, next) => {
     try {
       const { id } = req.params;
       const { status } = req.body;
 
-      await this.ApplicationService.updateStatus(id, status);
+      await applicationService.updateStatus(id, status);
 
       return res.status(200).json('Successfully updated status.');
     } catch (error) {
@@ -39,6 +61,15 @@ class ApplicationController {
     }
   };
 
+  /**
+   * Create a new application for the logged in user.
+   * @function submitUserApplication
+   * @memberof ApplicationController
+   * @async
+   * @param {express.Request} req 
+   * @param {express.Response} res
+   * @param {express.NextFunction} next
+   */
   submitUserApplication = async (req, res, next) => {
     const { id } = req.user;
     const {
@@ -51,7 +82,7 @@ class ApplicationController {
     } = req.body;
 
     try {
-      await this.ApplicationService.createUserApplication(
+      await applicationService.createUserApplication(
         id,
         vendorType,
         first_name,
