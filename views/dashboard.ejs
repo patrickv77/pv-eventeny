@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+    /> -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        display: flex;
+      }
+      .sidebar {
+        height: 100vh;
+        width: 250px;
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        box-sizing: border-box;
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .sidebar a {
+        color: white;
+        text-decoration: none;
+        display: block;
+        padding: 10px 0;
+      }
+      .sidebar a:hover {
+        background-color: #575757;
+      }
+      .main-content {
+        margin-left: 250px;
+        padding: 20px;
+        width: 100%;
+      }
+      .table-container {
+        max-height: 80vh; /* 80% of the viewport height */
+        overflow-y: auto;
+        border: 1px solid #ddd;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+      .status-circle {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+      .approved {
+        background-color: green;
+      }
+      .waitlisted {
+        background-color: yellow;
+      }
+      .rejected {
+        background-color: red;
+      }
+      .awaiting_action {
+        background-color: darkgrey;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div>
+        <h2>Menu</h2>
+        <% if (typeof dash !== 'undefined') { %> 
+          <% if (dash.role === 'admin'){ %>
+            <a href="/template">Application Templates</a>
+          <% } else { %>
+            <a href="/template/vendors">Submit New Application</a>
+          <% } %>
+        <% } %>
+        <a href="/apps">Submitted Applications</a>
+      </div>
+      <a href="/user/logout">Logout</a>
+    </div>
+
+    <div class="main-content">
+      <h2>Applications</h2>
+
+      <% if(typeof dash !== 'undefined') { %>
+      <div class="table-container">
+        <table id="user-applications">
+          <thead>
+            <tr>
+              <th>Application ID</th>
+              <% if(dash.role === 'admin') { %> 
+                <th>Applicant Username</th> 
+                <th>Applicant First Name</th> 
+                <th>Applicant Last Name</th> 
+                <th>Applicant Phone Number</th> 
+                <th>Applicant Email</th> 
+              <% } %>
+              <th>Vendor Space</th>
+              <th>Description</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% dash.applicationList.forEach(app => { %>
+            <tr>
+              <td><%= app.id %></td>
+              <% if(dash.role === 'admin') { %> 
+                <td><%= app.user.username %></td> 
+                <td><%= app.first_name %></td>
+                <td><%= app.last_name %></td>
+                <td><%= app.phone_number %></td>
+                <td><%= app.email %></td>
+              <% } %>
+              <td><%= app.application_template.vendor_type %></td>
+              <td><%= app.description %></td>
+              <td>
+                <span class="status-circle <%= app.status %>"></span>
+                <% if(dash.role === 'admin') { %>
+                  <select class="status-dropdown" data-app-id="<%= app.id %>">
+                    <option value="approved" <%= app.status === 'approved' ? 'selected' : '' %>>Approved</option>
+                    <option value="waitlisted" <%= app.status === 'waitlisted' ? 'selected' : '' %>>Waitlisted</option>
+                    <option value="rejected" <%= app.status === 'rejected' ? 'selected' : '' %>>Rejected</option>
+                    <option value="awaiting_action" <%= app.status === 'awaiting_action' ? 'selected' : '' %>>Awaiting action</option>
+                  </select>
+                <% } else { %>
+                  <span><%= app.status %></span>
+                <% } %>
+              </td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+      <% } %>
+    </div>
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('#user-applications').DataTable({
+          paging: true, // Enable pagination
+          pageLength: 10 // Number of entries per page
+        });
+      });
+
+      document.querySelectorAll('.status-dropdown').forEach((dropdown) => {
+        dropdown.addEventListener('change', function () {
+          const appId = this.getAttribute('data-app-id');
+          const newStatus = this.value;
+
+          fetch(`/apps/status/${appId}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ status: newStatus }),
+          })
+            .then((response) => {
+              if(response.status === 200) {
+                dropdown.previousElementSibling.className = `status-circle ${newStatus}`;
+              }else{
+                alert('There was an error updating status.')
+              }
+            })
+            .catch((error) => console.error('Error:', error));
+        });
+      });
+    </script>
+  </body>
+</html>
