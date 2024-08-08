@@ -1,12 +1,12 @@
 const express = require('express')
 const ApplicationService = require('../services/ApplicationService');
-const applicationService = new ApplicationService();
 
 /**
  * @class ApplicationController
  * @classdesc Controller class for handling application-related operations.
  */
 class ApplicationController {
+  applicationService = new ApplicationService();
   /**
    * Retrieves applications for the dashboard view.
    * If the user is an admin, it retrieves all applications.
@@ -26,10 +26,10 @@ class ApplicationController {
       dash.role = role;
 
       if (role === 'admin') {
-        const apps = await applicationService.getAllApplications();
+        const apps = await this.applicationService.getAllApplications();
         dash.applicationList = apps;
       } else {
-        const ownApps = await applicationService.getOwnApplications(id);
+        const ownApps = await this.applicationService.getOwnApplications(id);
         dash.applicationList = ownApps;
       }
 
@@ -53,7 +53,7 @@ class ApplicationController {
       const { id } = req.params;
       const { status } = req.body;
 
-      await applicationService.updateStatus(id, status);
+      await this.applicationService.updateStatus(id, status);
 
       return res.status(200).json('Successfully updated status.');
     } catch (error) {
@@ -82,7 +82,7 @@ class ApplicationController {
     } = req.body;
 
     try {
-      await applicationService.createUserApplication(
+      await this.applicationService.createUserApplication(
         id,
         vendorType,
         first_name,
