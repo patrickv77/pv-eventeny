@@ -1,3 +1,7 @@
+/**
+ * Sets up Sequelize with PostgreSQL using environment variables for configuration,
+ * loads all models in the current directory, establishes associations, and exports the Sequelize instance and models.
+ */
 'use strict';
 require("dotenv").config();
 const fs = require('fs');
