@@ -25,15 +25,19 @@ class ApplicationController {
       const dash = {};
       dash.role = role;
 
+      console.log('here');
       if (role === 'admin') {
         const apps = await this.applicationService.getAllApplications();
         dash.applicationList = apps;
+        console.log('here1', dash);
       } else {
         const ownApps = await this.applicationService.getOwnApplications(id);
         dash.applicationList = ownApps;
+        console.log('here2', dash);
       }
 
-      res.status(302).render('dashboard', { dash });
+      console.log('here3');
+      return res.status(302).render('dashboard', { dash });
     } catch (error) {
       return next(error);
     }
