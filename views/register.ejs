@@ -3,11 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
-    />
-    <title>Document</title>
+    <link rel="stylesheet" href="/public/assets/style.css">
+    <title>Register</title>
   </head>
   <body>
     <h1>Register</h1>
@@ -48,11 +45,15 @@
         />
       </div>
       <div>
-        <label for="role">Role: </label>
-        <select name="role" id="role">
-          <option value="admin">Admin</option>
-          <option value="user">User</option>
-        </select>
+        <span>
+          <label for="role">Role: </label>
+        </span>
+        <span>
+          <select name="role" id="role">
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+          </select>
+        </span>
       </div>
       <div>
         <input type="submit" value="Register" />
