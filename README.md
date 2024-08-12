@@ -57,6 +57,7 @@ In order to meet growing demands, we need to create a fast and secure web applic
 - Organizers can edit and delete templates.
 - Users can edit and delete submitted applications.
 - Pagination for GET /apps.
+- Add additional unit tests.
 
 ## API
 Admins can get a list of all submitted applications. Users can get a list of all applications they have submitted.
