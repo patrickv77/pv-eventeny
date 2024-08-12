@@ -1,8 +1,7 @@
 const ApplicationService = require('../../services/ApplicationService');
 const { application, application_template } = require('../../db/models');
 
-// jest.mock('../../services/ApplicationService')
-
+//inline comment above each test to describe what it does
 describe('ApplicationService', () => {
   let applicationService;
 
@@ -59,7 +58,7 @@ describe('ApplicationService', () => {
     it('should throw an error if update fails', async () => {
       application.update = jest.fn().mockRejectedValue();
 
-      await expect(applicationService.updateStatus(1, 'approved')).rejects.toThrow('Error updating status');
+      await expect(applicationService.updateStatus(1, 'approved')).rejects.toThrow('Error in updateStatus');
     });
   });
 
@@ -86,7 +85,7 @@ describe('ApplicationService', () => {
     it('should throw an error if creation fails', async () => {
       application.create = jest.fn().mockRejectedValue();
 
-      await expect(applicationService.createUserApplication({})).rejects.toThrow('error creatin');
+      await expect(applicationService.createUserApplication({})).rejects.toThrow('Error in createUserApplication');
     });
   });
 });
