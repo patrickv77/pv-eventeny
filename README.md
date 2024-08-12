@@ -56,6 +56,7 @@ In order to meet growing demands, we need to create a fast and secure web applic
 - Organizers can dynamically create application template fields to customize templates for different types of vendors.
 - Organizers can edit and delete templates.
 - Users can edit and delete submitted applications.
+- Pagination for GET /apps.
 
 ## API
 Admins can get a list of all submitted applications. Users can get a list of all applications they have submitted.
