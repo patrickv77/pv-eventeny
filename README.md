@@ -52,13 +52,13 @@ In order to meet growing demands, we need to create a fast and secure web applic
 1. Organizers can create and manage multiple application types, track submissions and update statuses.
 2. Allows vendors to submit applications and track their statuses.
 
-### Below the line (Out of scope)
-- Organizer can dynamically create application template fields.
-- Organizer can edit and delete templates.
-- User can edit and delete submitted applications.
+### Stretch Goals
+- Organizers can dynamically create application template fields to customize templates for different types of vendors.
+- Organizers can edit and delete templates.
+- Users can edit and delete submitted applications.
 
 ## API
-Admins can get a list of all submitted applications. Users get a list of all applications they have submitted.
+Admins can get a list of all submitted applications. Users can get a list of all applications they have submitted.
 ```
 GET /apps
 ```
@@ -68,14 +68,15 @@ Users can submit an application.
 ```
 POST /apps
 request.body {
-	first_name: 'pat',
-	last_name: 'patpat',
+	first_name: 'john',
+	last_name: 'doe',
 	phone_number: 1231231231,
-	email: pat@pat.com,
-	description: 'pat desc'
+	email: johndoe123@example.com,
+	vendor_type: 'restaurant',
+	description: 'I would like to participate in Foodventeny!'
 }
 ```
-Admins can create templates for applications.
+Admins can create templates for applications. 
 ```
 POST /template
 request.body {
@@ -93,7 +94,7 @@ request.body {
 ## Architecture
 ![MVC](foodventeny-mvc.png?raw=true  "Foodventeny MVC")
 
-This project follows the model-view-controller (or MVC) design pattern. EJS acts as the **View** element; the template displays information returned from the controller. The **Controller** consists of the server (express.js), the authentication library (Passport) and the controller classes. They work in tandem to process user input, update the Model, and select the View to present to the client. And finally, the **Model** consists of the ORM (Sequelize), the database (Postgres) and the service classes. They handle all of the business logic and manage the application's state (updating the database).
+This project follows the model-view-controller (or MVC) design pattern. EJS acts as the **View** element; the template displays information returned from the controller. The **Controller** consists of the server (express.js), the authentication library (Passport) and the controller classes. They work in tandem to process user input, update the Model, and select the View to present to the user. And finally, the **Model** consists of the ORM (Sequelize) and the service classes. They handle all of the business logic and manage the application's state (updating the PostgreSQL database).
 
 ## Technologies
 
@@ -111,7 +112,7 @@ This project follows the model-view-controller (or MVC) design pattern. EJS acts
 
 ### PostgreSQL and Sequelize
 
-**PostgreSQL** is an open-source relational database system and **Sequelize** is a promise-based ORM (Object-Relational Mapper). The application uses Sequelize to interact with the PostgreSQL database using JavaScript objects. Using an ORM makes interacting with data simpler and more secure.
+**PostgreSQL** is an open-source relational database system and **Sequelize** is a promise-based ORM (Object-Relational Mapper). The application uses Sequelize to interact with the PostgreSQL database using JavaScript objects. Using an ORM makes interacting with data simple and more secure.
 
 ### Containers (Docker)
 
