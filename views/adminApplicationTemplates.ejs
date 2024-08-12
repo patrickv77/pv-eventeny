@@ -3,10 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
-    />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -63,7 +60,7 @@
         width: 100%;
       }
       .table-container {
-        max-height: 80vh; /* 80% of the viewport height */
+        max-height: 80vh;
         overflow-y: auto;
         border: 1px solid #ddd;
       }
@@ -110,9 +107,9 @@
   <body>
     <div class="sidebar">
       <div>
-        <h2>Menu</h2>
-        <a href="/template">Application Templates</a>
+        <h2><%= applicationTemplates.user %></h2>
         <a href="/apps">Submitted Applications</a>
+        <a href="/template">Application Templates</a>
       </div>
       <a href="/user/logout">Logout</a>
     </div>
@@ -133,7 +130,7 @@
             </tr>
           </thead>
           <tbody>
-            <% applicationTemplatesList.forEach(app => { %>
+            <% applicationTemplates.list.forEach(app => { %>
             <tr>
               <td><%= app.id %></td>
               <td><%= app.vendor_type %></td>

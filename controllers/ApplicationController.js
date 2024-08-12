@@ -19,11 +19,12 @@ class ApplicationController {
    * @param {express.NextFunction} next
    */
   getApplications = async (req, res, next) => {
-    const { id, role } = req.user;
+    const { id, username, role } = req.user;
 
     try {
       const dash = {};
       dash.role = role;
+      dash.user = username;
 
       if (role === 'admin') {
         const apps = await this.applicationService.getAllApplications();

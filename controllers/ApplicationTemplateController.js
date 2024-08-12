@@ -17,10 +17,15 @@ class ApplicationTemplateController {
    * @param {express.NextFunction} next
    */
   getAllApplicationTemplates = async (req, res, next) => {
-    try {
-      const applicationTemplatesList = await this.applicationTemplateService.getApplicationTemplatesList();
+    const { username } = req.user;
 
-      return res.render('adminApplicationTemplates', { applicationTemplatesList })
+    try {
+      const applicationTemplates = {};
+      applicationTemplates.user = username;
+
+      applicationTemplates.list = await this.applicationTemplateService.getApplicationTemplatesList();
+
+      return res.render('adminApplicationTemplates', { applicationTemplates })
     } catch (error) {
       return next(error)
     }
@@ -70,8 +75,13 @@ class ApplicationTemplateController {
    * @param {express.NextFunction} next
    */
   getAllVendorTypes = async (req, res, next) => {
+    const { username } = req.user;
+
     try {
-      const vendorTypes = await this.applicationTemplateService.getVendorTypesList();
+      const vendorTypes = {};
+      vendorTypes.user = username;
+
+      vendorTypes.list = await this.applicationTemplateService.getVendorTypesList();
 
       return res.render('userSubmitApplication', { vendorTypes })
     } catch (error) {

@@ -3,10 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
-    /> -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
     <style>
       body {
@@ -41,7 +37,7 @@
         width: 100%;
       }
       .table-container {
-        max-height: 80vh; /* 80% of the viewport height */
+        max-height: 80vh;
         overflow-y: auto;
         border: 1px solid #ddd;
       }
@@ -88,15 +84,13 @@
   <body>
     <div class="sidebar">
       <div>
-        <h2>Menu</h2>
-        <% if (typeof dash !== 'undefined') { %> 
-          <% if (dash.role === 'admin'){ %>
-            <a href="/template">Application Templates</a>
-          <% } else { %>
-            <a href="/template/vendors">Submit New Application</a>
-          <% } %>
-        <% } %>
+        <h2><%= dash.user %></h2>
         <a href="/apps">Submitted Applications</a>
+        <% if (dash.role === 'admin'){ %>
+          <a href="/template">Application Templates</a>
+        <% } else { %>
+          <a href="/template/vendors">Submit New Application</a>
+        <% } %>
       </div>
       <a href="/user/logout">Logout</a>
     </div>

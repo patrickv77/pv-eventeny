@@ -3,20 +3,69 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
-    />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
     <style>
-      .descriptionBox {
-        height: 40vh;
-        font-size: 12pt;
-      }
-
       body {
         font-family: Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #333;
+        background-color: #f4f4f4;
         margin: 0;
+        padding: 20px;
         display: flex;
+      }
+      .main-content {
+        margin: 0 auto;
+        margin-left: 250px;
+        padding: 20px;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #333;
+      }
+      form {
+        display: grid;
+        gap: 15px;
+      }
+      form div {
+        display: grid;
+        gap: 5px;
+      }
+      label {
+        font-weight: bold;
+        font-size: 14px;
+        color: #555;
+      }
+      input[type="text"],
+      select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      input[type="submit"] {
+        background-color: #3498db;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      input[type="submit"]:hover {
+        background-color: #2980b9;
+      }
+      .descriptionBox {
+        height: 100px;
       }
       .sidebar {
         height: 100vh;
@@ -39,13 +88,9 @@
       .sidebar a:hover {
         background-color: #575757;
       }
-      .main-content {
-        margin-left: 250px;
-        padding: 20px;
-        width: 100%;
-      }
+
       .table-container {
-        max-height: 80vh; /* 80% of the viewport height */
+        max-height: 80vh;
         overflow-y: auto;
         border: 1px solid #ddd;
       }
@@ -74,9 +119,9 @@
   <body>
     <div class="sidebar">
       <div>
-        <h2>Menu</h2>
-        <a href="/template/vendors">Submit New Application</a>
+        <h2><%= vendorTypes.user %></h2>
         <a href="/apps">Submitted Applications</a>
+        <a href="/template/vendors">Submit New Application</a>
       </div>
       <a href="/user/logout">Logout</a>
     </div>
@@ -89,7 +134,7 @@
           <div>
             <label for="vendorType">Vendor Type:</label>
               <select id="vendorType" name="vendorType">
-                <% vendorTypes.forEach(type => { %>
+                <% vendorTypes.list.forEach(type => { %>
                   <option value="<%= type %>"><%= type.replace('_', ' ') %></option>
                 <% }); %>
               </select>
