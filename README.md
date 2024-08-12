@@ -58,18 +58,15 @@ In order to meet growing demands, we need to create a fast and secure web applic
 - User can edit and delete submitted applications.
 
 ## API
-We need to be able to get all (admins) applications or their own (users) applications.
+Admins can get a list of all submitted applications. Users get a list of all applications they have submitted.
 ```
 GET /apps
 ```
 
-Users need to be able to submit applications
+Users can submit an application.
 
 ```
 POST /apps
-request.user {
-	id: 1
-}
 request.body {
 	first_name: 'pat',
 	last_name: 'patpat',
@@ -78,21 +75,16 @@ request.body {
 	description: 'pat desc'
 }
 ```
-We get information to create a new user from two different places. The user_id comes from request.user and is only available after successful login (stored in session via Passport). The rest of the information comes on the request body via an HTML form.
-
-Admins need to be able to create templates for applications. For now, we are simply creating a new template based on one input, the type of vendor.
+Admins can create templates for applications.
 ```
 POST /template
 request.body {
 	vendor_type: 'restaurant'
 }
 ```
-Lastly, admins must be able to update the status of an application
+Lastly, admins can update the status of an application.
 ```
 PUT /apps/status/:id
-request.params {
-	id: 1
-}
 request.body {
 	status: 'approved'
 }
@@ -101,7 +93,7 @@ request.body {
 ## Architecture
 ![MVC](foodventeny-mvc.png?raw=true  "Foodventeny MVC")
 
-I decided to architect this project following the model-view-controller (or MVC) design pattern. In my project, EJS acts as the **View** element. Users see and interact with this to access features on the backend. The **Controller** consists of my node.js/express.js server, my authentication library (Passport) and my controller classes. They work in tandem to process user input, update the Model, and select the View to present the results. And finally, the **Model** would consist of my ORM (Sequelize), my database (Postgres) and my service classes. They handle all of the business logic and manage the application's state (updating database).
+This project follows the model-view-controller (or MVC) design pattern. EJS acts as the **View** element; the template displays information returned from the controller. The **Controller** consists of the server (express.js), the authentication library (Passport) and the controller classes. They work in tandem to process user input, update the Model, and select the View to present to the client. And finally, the **Model** consists of the ORM (Sequelize), the database (Postgres) and the service classes. They handle all of the business logic and manage the application's state (updating the database).
 
 ## Technologies
 
@@ -111,16 +103,16 @@ I decided to architect this project following the model-view-controller (or MVC)
 
 ### EJS
 
-**EJS (Embedded JavaScript)** is a templating engine that is used to generate HTML markup with plain JavaScript. It is used to render dynamic web pages on the server side by embedding JavaScript logic directly into HTML. This makes it easy to pass data from the server to the views, creating a seamless user experience.
+**EJS (Embedded JavaScript)** is a templating engine that is used to generate HTML markup with plain JavaScript. It is used to render dynamic web pages by embedding JavaScript logic directly into HTML. 
 
 ### Passport.js and Express-session
 
-**Passport.js and Express-session** are express middlewares that are used in conjunction to implement simple and secure authentication to the application. Passport.js supports various authentication strategies, including the one that we chose `passport-local`, which enable users to tailor passport to their specific needs. In this case, `passport-local` provides a simple username and password authentication that stores data on the session created by Express-session.
+**Passport.js and Express-session** are express middlewares used to implement simple and secure authentication. Passport.js supports various authentication strategies, including `passport-local`, which enables users to tailor Passport.js to their specific needs. In this case, `passport-local` provides a simple username and password authentication that stores data on the session created by Express-session.
 
 ### PostgreSQL and Sequelize
 
-**PostgreSQL** is an open-source relational database system and **Sequelize** is a promise-based ORM (Object-Relational Mapper). My application uses PostgreSQL to store data and uses Sequelize to interact with my SQL database. Including an ORM makes interacting with data simpler and more secure.
+**PostgreSQL** is an open-source relational database system and **Sequelize** is a promise-based ORM (Object-Relational Mapper). The application uses Sequelize to interact with the PostgreSQL database using JavaScript objects. Using an ORM makes interacting with data simpler and more secure.
 
 ### Containers (Docker)
 
-**Docker** containers include everything needed to run a piece of software. My application and database run inside separate Docker containers.
+**Docker** containers include everything needed to run a piece of software. The application and database run inside separate Docker containers.
