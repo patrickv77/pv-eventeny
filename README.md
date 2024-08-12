@@ -44,7 +44,7 @@ npm run test
 ## Introduction
 Foodventeny, a local festival organization, is significantly increasing their number of vendors and requires a technological solution to organize and process applications.
 
-In order to meet growing demands, we need to create a fast and secure web application that will be able to handle concurrent application submissions and allow event organizers a simple way to update user applications. In addition, organizers should be able to create application templates for various purposes related to their event and users should be able to submit their own applications using those templates and view their application statuses.
+In order to meet growing demands, we need to create a fast and secure web application that will be able to handle concurrent application submissions and allow event organizers a simple way to update user applications. In addition, organizers should be able to create application templates for various purposes related to their event and vendors should be able to submit their own applications using those templates and view their application statuses.
 
 ## Requirements
 
