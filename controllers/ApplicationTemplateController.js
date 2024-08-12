@@ -1,12 +1,12 @@
 const express = require('express');
 const ApplicationTemplateService = require('../services/ApplicationTemplateService')
-const applicationTemplateService = new ApplicationTemplateService();
 
 /**
  * @class ApplicationTemplateController
  * @classdesc Controller class for handling application template-related operations.
  */
 class ApplicationTemplateController {
+  applicationTemplateService = new ApplicationTemplateService();
   /**
    * Retrieves all application templates for the adminApplicationTemplate view.
    * @function getAllApplicationTemplates
@@ -18,7 +18,7 @@ class ApplicationTemplateController {
    */
   getAllApplicationTemplates = async (req, res, next) => {
     try {
-      const applicationTemplatesList = await applicationTemplateService.getApplicationTemplatesList();
+      const applicationTemplatesList = await this.applicationTemplateService.getApplicationTemplatesList();
 
       return res.render('adminApplicationTemplates', { applicationTemplatesList })
     } catch (error) {
@@ -38,7 +38,7 @@ class ApplicationTemplateController {
     const { vendor_type } = req.body;
 
     try {
-      await applicationTemplateService.createApplicationTemplate(vendor_type);
+      await this.applicationTemplateService.createApplicationTemplate(vendor_type);
 
       return res.status(302).redirect('/template');
     } catch (error) {
@@ -71,7 +71,7 @@ class ApplicationTemplateController {
    */
   getAllVendorTypes = async (req, res, next) => {
     try {
-      const vendorTypes = await applicationTemplateService.getVendorTypesList();
+      const vendorTypes = await this.applicationTemplateService.getVendorTypesList();
 
       return res.render('userSubmitApplication', { vendorTypes })
     } catch (error) {

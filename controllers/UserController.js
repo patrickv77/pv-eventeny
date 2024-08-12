@@ -1,12 +1,12 @@
 const express = require('express');
 const UserService = require('../services/UserService')
-const userService = new UserService();
 
 /**
  * @class UserController
  * @classdesc Controller class for handling user-related operations.
  */
 class UserController {
+  userService = new UserService();
   /**
    * Adds a new user to the database.
    * @function addUser
@@ -21,14 +21,14 @@ class UserController {
     const { username, password, password2, role } = req.body;
 
     try {
-      const foundUser = await userService.findUser(username);
+      const foundUser = await this.userService.findUser(username);
 
-      const registrationErrors = userService.setRegistrationErrors(foundUser, username, password, password2, role);
+      const registrationErrors = this.userService.setRegistrationErrors(foundUser, username, password, password2, role);
 
       if (registrationErrors.length > 0) {
         res.render('register', { registrationErrors });
       } else {
-        const newUser = await userService.createUser( username, password, role );
+        const newUser = await this.userService.createUser( username, password, role );
   
         return res.status(201).redirect('/login');
       }
