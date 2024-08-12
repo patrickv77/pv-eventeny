@@ -17,7 +17,7 @@ describe('ApplicationService', () => {
 
       expect(result).toEqual([{ id: 1 }]);
       expect(application.findAll).toHaveBeenCalled();
-    });
+    }); 
 
     it('should throw an error if query fails', async () => {
       application.findAll = jest.fn().mockRejectedValue();
@@ -34,6 +34,7 @@ describe('ApplicationService', () => {
       const result = await applicationService.getOwnApplications(userId);
 
       expect(result).toEqual([{ id: 1 }]);
+      expect(application.findAll).toHaveBeenCalled();
     });
 
     it('should throw an error if query fails', async () => {
