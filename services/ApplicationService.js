@@ -103,11 +103,11 @@ class ApplicationService {
 
       return updatedApp;
     } catch (error) {
-      throw new Error('Error updating status');
+      throw new Error('Error in updateStatus');
     }
   };
 
-   /**
+  /**
    * Creates a new user application.
    * @function createUserApplication
    * @memberof ApplicationService
@@ -151,7 +151,7 @@ class ApplicationService {
 
       return app;
     } catch (error) {
-      throw new Error('error creatin');
+      throw new Error('Error in createUserApplication');
     }
   };
 }
